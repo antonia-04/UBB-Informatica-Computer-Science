@@ -23,6 +23,8 @@
 
 ### Semestrul 2
 
+- to be added
+
 1. **🕸️ Algoritmica Grafelor/Grafurilor**  
 
 2. **📏 Geometrie**  
@@ -37,8 +39,4 @@
 
 7. **📖 DPPD: Fundamentele Pedagogiei și Teoria și Metodologia Curriculumului**  
 
----
 
-Acest repository are rolul de a centraliza toate fișierele și resursele necesare pentru studiu, facilitând accesul rapid și organizarea materialelor.
-
----

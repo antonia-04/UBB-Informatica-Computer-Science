@@ -1,0 +1,56 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit               
+     6                                  import exit msvcrt.dll    
+     7                                  
+     8                                  segment data use32 class=data
+     9 00000000 2B34326138345835            S1 db '+','4','2','a','8','4','X','5' ; definim sirul S1
+    10                                      l equ $-S1 ; determinam lungimea sirului S1
+    11 00000008 613435                      S2 db 'a','4','5'
+    12                                      r equ $-S2 ; determinam lungimea sirului S2
+    13 0000000B 00<rept>                    D times 20 db 0 ;D: '+', '2', '8', 'X'
+    14 0000001F <res 00000001>              ap resb 1 ;nr aparitii
+    15 00000020 <res 00000001>              cont resb 1
+    16                                  
+    17                                  segment code use32 class=code
+    18                                      start:
+    19 00000000 B908000000                      mov ecx, l  ; punem in registrul contor dimensiunea primului sir
+    20 00000005 BE00000000                      mov esi, 0  ; indicele de la care incepem iterarea
+    21 0000000A BF00000000                      mov edi, 0  ; indicele din sirul destinatie (D)
+    22 0000000F E34C                            jecxz sf    ; tratam cazul in care ECX e 0
+    23                                          
+    24                                          loop_start:
+    25                                          
+    26 00000011 8A86[00000000]                      mov al,[S1 + esi]     ;punem in AL elementul curent 0
+    27 00000017 C605[1F000000]00                    mov byte[ap],0      ;initializam [ap] cu 0, intrucat ea va contoriza numarul de aparitii a lui AL in S2
+    28 0000001E C605[20000000]03                    mov byte[cont],r    ;ne luam o variabila contor, intrucat ECX este ocupat, cu ea implementand o varianta proprie de loop 
+    29 00000025 BB00000000                          mov ebx,0           ;ebx contor in noul sir 
+    30                                              strt:
+    31                                                  
+    32 0000002A 8A93[08000000]                          mov dl,[S2 + ebx] ;punem in DL elemntul curent
+    33                                                  
+    34 00000030 38D0                                    cmp al, dl       ; verificam egalitatea cu DL
+    35 00000032 7506                                    jne et
+    36 00000034 FE05[1F000000]                          inc byte [ap]    ; daca cele doua sunt egale, incrementam variabila ce retine numarul de aparitii
+    37                                                  
+    38                                                  et:
+    39                                                  
+    40 0000003A 43                                      inc ebx        ;incrementam variabila contor pentru sirul S2
+    41 0000003B FE0D[20000000]                          dec byte [cont]  ;decrementam contorul loop-ului
+    42 00000041 803D[20000000]00                        cmp byte [cont],0 ;comparam contorul loop-ului cu 0 pentru a vedea daca mai avem de executat pasi
+    43 00000048 75E0                                jne strt
+    44                                              
+    45 0000004A 803D[1F000000]00                    cmp byte[ap],0      ;comparam numarul de aparitii cu 0 pentru a vedea daca exista caracterul cautat in S2
+    46 00000051 7507                                jne eth
+    47 00000053 8887[0B000000]                      mov [D + edi], al     ;in cazul in care nu exista punem caracterul in noul sir, cel destinatie, adica D
+    48 00000059 47                                  inc edi             ;incrementam registrul index pentru sirul D
+    49                                              eth:
+    50 0000005A 46                                  inc esi            ;incrementam registrul index pentru sirul S1
+    51                                              
+    52 0000005B E2B4                            loop loop_start
+    53                                          sf:
+    54                                          
+    55 0000005D 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    56 0000005F FF15[00000000]                  call    [exit]       ; call exit to terminate the program

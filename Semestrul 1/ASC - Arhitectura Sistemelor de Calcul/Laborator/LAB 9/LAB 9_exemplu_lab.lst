@@ -1,0 +1,106 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  ; declare external functions needed by our program
+     6                                  extern exit, fopen, fread, fclose, printf
+     7                                  import exit msvcrt.dll  
+     8                                  import fopen msvcrt.dll  
+     9                                  import fread msvcrt.dll
+    10                                  import fclose msvcrt.dll
+    11                                  import printf msvcrt.dll
+    12                                  
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16 00000000 696E7075742E747874-         nume_fisier db "input.txt", 0
+    16 00000009 00                 
+    17 0000000A 7200                        mod_acces db "r", 0
+    18 0000000C 00000000                    descriptor_fisier dd 0
+    19                                      
+    20 00000010 01000000                    dimensiune dd 1
+    21 00000014 64000000                    count dd 100
+    22                                      
+    23 00000018 <res 00000064>              sir resb 100
+    24 0000007C 00000000                    lungime_sir dd 0
+    25 00000080 0A                          cifra_min db 10
+    26                                      
+    27 00000081 256400                      format_afisare db "%d", 0
+    28                                      
+    29                                  
+    30                                  ; our code starts here
+    31                                  segment code use32 class=code
+    32                                      start:
+    33                                          ; FILE * fopen(const char* nume_fisier, const char * mod_acces)
+    34 00000000 68[0A000000]                    push dword mod_acces
+    35 00000005 68[00000000]                    push dword nume_fisier
+    36 0000000A FF15[00000000]                  call [fopen]
+    37 00000010 83C408                          add esp, 4 * 2
+    38                                          
+    39 00000013 83F800                          cmp eax, 0
+    40 00000016 7476                            je final    ; Nu s-a putut deschide fisierul
+    41                                          
+    42                                          ; Salvam descri[torul pentru a-l utiliza mai tarziu
+    43 00000018 A3[0C000000]                    mov [descriptor_fisier], eax
+    44                                          
+    45                                          ; Din acest punct avem acces la continutul fisierului, putem efectua operatii
+    46                                          
+    47                                          ; int fread(void * str, int size, int count, FILE * stream)
+    48 0000001D FF35[0C000000]                  push dword [descriptor_fisier]
+    49 00000023 FF35[14000000]                  push dword [count]
+    50 00000029 FF35[10000000]                  push dword [dimensiune]
+    51 0000002F 68[18000000]                    push dword sir
+    52 00000034 FF15[00000000]                  call [fread]
+    53 0000003A 83C410                          add esp, 4 * 4
+    54                                          
+    55                                          ; Zona de memorie 'text' a fost populata cu continutul fisierului
+    56                                          ; Cautam cifra impara minima din fisier
+    57                                          
+    58 0000003D A3[7C000000]                    mov [lungime_sir], eax
+    59                                          
+    60 00000042 BE[18000000]                    mov esi, sir
+    61 00000047 8B0D[7C000000]                  mov ecx, [lungime_sir]
+    62 0000004D FC                              cld
+    63 0000004E E316                            jecxz finalBucla
+    64                                          
+    65                                          bucla:
+    66 00000050 AC                                  lodsb   ; AL <- sir[i]
+    67 00000051 2C30                                sub AL, '0'
+    68                                              
+    69 00000053 A801                                test AL, 1
+    70 00000055 740D                                jz salt
+    71                                              
+    72 00000057 3A05[80000000]                      cmp AL, [cifra_min]
+    73 0000005D 7705                                ja salt
+    74                                              
+    75 0000005F A2[80000000]                        mov [cifra_min], AL
+    76                                                          
+    77                                              salt:
+    78 00000064 E2EA                                loop bucla
+    79                                          
+    80                                          finalBucla:
+    81                                          
+    82                                          ; GRESIT: push dword [cifra_min] (este definit ca byte, printf lucreaza cu dword)
+    83                                          
+    84 00000066 B800000000                      mov EAX, 0
+    85 0000006B A0[80000000]                    mov AL, [cifra_min]
+    86                                          
+    87 00000070 50                              push EAX
+    88 00000071 68[81000000]                    push dword format_afisare
+    89 00000076 FF15[00000000]                  call [printf]
+    90 0000007C 83C408                          add esp, 4*2
+    91                                          
+    92                                          ; int fclose(FILE * descriptor)
+    93 0000007F FF35[0C000000]                  push dword [descriptor_fisier]
+    94 00000085 FF15[00000000]                  call [fclose]
+    95 0000008B 83C404                          add esp, 4
+    96                                          
+    97                                          final:
+    98                                          ; exit(0)
+    99 0000008E 6A00                            push    dword 0      
+   100 00000090 FF15[00000000]                  call    [exit]       
+   101                                          
+   102                                          
+   103                                          
+   104                                          
+   105                                          

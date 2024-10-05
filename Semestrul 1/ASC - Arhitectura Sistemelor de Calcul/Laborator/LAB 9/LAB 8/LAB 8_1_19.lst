@@ -1,0 +1,78 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit, scanf, printf  
+     6                                  import exit msvcrt.dll  
+     7                                  import scanf msvcrt.dll  
+     8                                  import printf msvcrt.dll
+     9                                  
+    10                                  segment data use32 class=data
+    11 00000000 00000000                    nA dd 0
+    12 00000004 00000000                    nB dd 0 ;adresele din memorie
+    13 00000008 00                          a db 0 ;octetul
+    14 00000009 0000                        b dw 0 ; cuvantul
+    15 0000000B 256400                      format db "%d", 0
+    16 0000000E 257300                      format1 db "%s", 0
+    17 00000011 4441                        yes db 'DA'
+    18 00000013 4E55                        no db  'NU'
+    19                                  
+    20                                  segment code use32 class=code
+    21                                      start:
+    22                                      ;Sa se citeasca de la tastatura un octet si un cuvant. Sa se afiseze pe ecran daca bitii octetului citit se regasesc consecutiv printre bitii cuvantului.
+    23 00000000 68[00000000]                    push dword nA
+    24 00000005 68[0B000000]                    push dword format
+    25 0000000A FF15[00000000]                  call [scanf]
+    26 00000010 83C408                          add esp, 4*2
+    27                                          
+    28 00000013 68[04000000]                    push dword nB
+    29 00000018 68[0B000000]                    push dword format
+    30 0000001D FF15[00000000]                  call [scanf]
+    31 00000023 83C408                          add esp, 4*2
+    32                                          
+    33                                          ;de la adresa nA este a si de la adresa nB este b
+    34 00000026 B800000000                      mov eax, 0
+    35 0000002B A0[00000000]                    mov al, [nA]
+    36                                   
+    37                                         
+    38 00000030 BB00000000                      mov ebx, 0
+    39 00000035 668B1D[04000000]                mov bx, [nB]
+    40                                       
+    41                                          
+    42                                          ; 1001 1010 1001 1010
+    43                                          ; 1101 0100
+    44                                          ; 0100 1101 0100 1101 = shift la dreapta
+    45                                          
+    46                                          ; comparam bitii 
+    47                                          ; facem un loop care shifteaza la dreapta de 16 ori si verifica daca ultimii 8 biti din bx sunt identici cu cei din 
+    48 0000003C 66BA1000                        mov dx, 16         ; Numărul de deplasări
+    49                                          shift_loop:
+    50 00000040 B101                                mov cl, 1
+    51 00000042 66D3EB                              shr bx, cl        ; Shift la dreapta cu 1 bit
+    52 00000045 38D8                                cmp al, bl        ; Compararea lui al cu cei 8 biți izolați din bx
+    53 00000047 741B                                je sunt_identici  ; Bitii sunt identici, afisam yes
+    54 00000049 7500                                jne not_equal     ; Dacă nu sunt egali, sărit la not_equal (eticheta pentru cazul în care nu sunt egali)
+    55                                              
+    56                                              not_equal:
+    57 0000004B 664A                                    dec dx         ; Scădere la contor
+    58 0000004D 75F1                                    jnz shift_loop ; Continuare la următoarea iterație dacă nu s-au făcut încă 16 deplasări
+    59                                  
+    60                                              ; Biții nu se potrivesc, așa că afișăm un mesaj corespunzător
+    61 0000004F 68[13000000]                        push dword no
+    62 00000054 68[0E000000]                        push dword format1
+    63 00000059 FF15[00000000]                      call [printf]
+    64 0000005F 83C408                              add esp, 2 * 4
+    65 00000062 EB15                                jmp end_program
+    66                                          
+    67                                          sunt_identici:
+    68                                              ; Biții s-au potrivit, deci afișăm un mesaj corespunzător
+    69 00000064 68[11000000]                       push dword yes
+    70 00000069 68[0E000000]                       push dword format1
+    71 0000006E FF15[00000000]                     call [printf]
+    72 00000074 83C408                             add esp, 2 * 4
+    73 00000077 EB00                               jmp end_program
+    74                                             
+    75                                          end_program:
+    76                                  
+    77 00000079 6A00                            push    dword 0      
+    78 0000007B FF15[00000000]                  call    [exit]      

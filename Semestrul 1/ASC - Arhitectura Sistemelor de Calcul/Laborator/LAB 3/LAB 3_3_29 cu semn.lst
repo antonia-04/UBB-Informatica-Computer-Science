@@ -1,0 +1,41 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit               
+     6                                  import exit msvcrt.dll   
+     7                                  
+     8                                  segment data use32 class=data
+     9                                      ; a,b,c-byte; d-doubleword; x-qword
+    10 00000000 01                          a db 1
+    11 00000001 02                          b db 2
+    12 00000002 05                          c db 5
+    13 00000003 0B000000                    d dd 11
+    14 00000007 C4FFFFFFFFFFFFFF            x dq -60
+    15                                  segment code use32 class=code
+    16                                      start:
+    17                                          ;(a+b)/(c-2)-d+2-x = 2
+    18 00000000 A0[00000000]                    mov al, [a]
+    19 00000005 0205[01000000]                  add al, [b]
+    20                                          
+    21 0000000B 6698                            cbw ; ax = a+b
+    22                                          
+    23 0000000D 8A1D[02000000]                  mov bl, [c]
+    24 00000013 80EB02                          sub bl, 2
+    25                                          
+    26 00000016 F6FB                            idiv bl ; ax = (a+b)/(c-2)
+    27 00000018 98                              cwde ; eax = (a+b)/(c-2)
+    28                                          
+    29 00000019 8B1D[03000000]                  mov ebx, [d]
+    30                                          
+    31 0000001F 29D8                            sub eax, ebx
+    32 00000021 83C002                          add eax, 2  ; eax = ;(a+b)/(c-2)-d+2
+    33                                          
+    34 00000024 99                              cdq
+    35                                          
+    36 00000025 2B05[07000000]                  sub eax, [x] 
+    37 0000002B 1B15[0B000000]                  sbb edx, [x+4]
+    38                                          
+    39                                          
+    40 00000031 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    41 00000033 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

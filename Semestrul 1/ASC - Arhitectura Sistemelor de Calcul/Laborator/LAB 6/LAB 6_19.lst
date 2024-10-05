@@ -1,0 +1,68 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit               
+     6                                  import exit msvcrt.dll    
+     7                                  
+     8                                  segment data use32 class=data
+     9 00000000 010402050904020402-         a db 1, 4, 2, 5, 9, 4, 2, 4, 2, 5
+     9 00000009 05                 
+    10                                      lena equ $-a
+    11 0000000A 040205                      b db 4, 2, 5
+    12                                      lenb equ $-b
+    13 0000000D 00<rept>                    sol times lena db 0
+    14                                  
+    15                                  segment code use32 class=code
+    16                                      start:
+    17                                          ;19. Dandu-se doua siruri de octeti sa se calculeze toate pozitiile unde al doilea sir apare ca subsir in primul sir.
+    18 00000000 B90A000000                      mov ecx, lena  ;ECX = lungime a
+    19 00000005 BB[0D000000]                    mov ebx, sol
+    20 0000000A BE[00000000]                    mov esi, a  ; DS:ESI = a
+    21 0000000F BF[0A000000]                    mov edi, b  ; ES:EDI = b
+    22 00000014 FC                              cld  ; parcurgem de la stânga la dreapta
+    23                                          
+    24 00000015 E334                            jecxz endLoop  ; dacă lungimea este zero, ieși din buclă
+    25                                          
+    26                                          LOOP1:  ; parcurgem șirul a
+    27                                              verif: 
+    28 00000017 A6                                      cmpsb  ; compară valoarea curentă din a cu valoarea curentă din b
+    29 00000018 4E                                      dec esi 
+    30 00000019 4F                                      dec edi  
+    31 0000001A 7503                                    jne lng  ; dacă nu sunt egale, săriti la eticheta lng
+    32 0000001C 47                                      inc edi  ; EDI++ dacă sunt egale
+    33 0000001D 74F8                                    je verif  ; continuăm verificarea pentru a verifica dacă apare subsirul
+    34                                                  
+    35                                                  lng:  ; verificăm dacă numărul de comparații este egal cu lungimea subsirului
+    36 0000001F 89F8                                    mov eax, edi  ; mutam EDI în EAX
+    37 00000021 2D[0A000000]                            sub eax, b  ; scădem adresa de început a lui b din EAX
+    38                                                  
+    39 00000026 83F803                                  cmp eax, lenb  ; comparăm indexul curent pentru b cu lungimea lui b
+    40 00000029 751D                                    jne endL  ; dacă nu sunt egale, mergem la eticheta endL
+    41                                                  
+    42 0000002B 89F0                                    mov eax, esi  ; mutăm ESI în EAX
+    43 0000002D 40                                      inc eax
+    44 0000002E 2D[00000000]                            sub eax, a  ; scădem adresa de început a lui a din EAX
+    45 00000033 83E803                                  sub eax, lenb  ; scădem lungimea lui b din EAX
+    46                                                  
+    47                                                  ; schimbăm conținutul dintre EBX și EDI
+    48 00000036 89DA                                    mov edx, ebx
+    49 00000038 89FB                                    mov ebx, edi
+    50 0000003A 89D7                                    mov edi, edx
+    51 0000003C AA                                      stosb  ; stocăm AL în d
+    52                                                  ; schimbăm înapoi conținutul dintre EBX și EDI
+    53 0000003D 89DA                                    mov edx, ebx
+    54 0000003F 89FB                                    mov ebx, edi
+    55 00000041 89D7                                    mov edi, edx
+    56                                  
+    57 00000043 BF[0A000000]                            mov edi, b  ; dacă sunt egale, resetăm indexul curent al lui b
+    58                                                  
+    59                                                  endL:  ; sfârșitul verificării
+    60 00000048 46                                      inc esi  
+    61 00000049 E2CC                                loop LOOP1  ; continuăm bucla pentru fiecare octet din a
+    62                                          endLoop:  ; sf parcurgerii
+    63                                          
+    64                                      
+    65                                          ; exit(0)
+    66 0000004B 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    67 0000004D FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,8 @@
+citesc in loop si le tin minte intr un sir
+
+
+lab 8, ex 28
+parsati cifre
+citire cu buffer
+exemple lab 6-8
+rezervam spatiu dar putem sa luam octetii low sau sa impartim

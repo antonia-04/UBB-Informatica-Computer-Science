@@ -1,0 +1,52 @@
+     1                                  ;Se da cuvantul A. Sa se obtina numarul intreg n reprezentat de bitii 0-2 ai lui A. Sa se obtina apoi in B cuvântul rezultat prin rotirea spre dreapta (fara carry) a lui A cu n pozitii. Sa se obtina dublucuvantul C
+     2                                      ;bitii 8-15 ai lui C sunt 0
+     3                                      ;bitii 16-23 ai lui C coincid cu bitii lui 2-9 ai lui B
+     4                                      ;bitii 24-31 ai lui C coincid cu bitii lui 7-14 ai lui A
+     5                                      ;bitii 0-7 ai lui C sunt 1
+     6                                      
+     7                                  bits 32
+     8                                  
+     9                                  global  start
+    10                                  
+    11                                  extern  exit 
+    12                                  import  exit msvcrt.dll 
+    13                                  
+    14                                  segment  data use32 class=data 
+    15                                  
+    16 00000000 6BD7                        a dw 1101011101101011b
+    17 00000002 0000                        b dw 0
+    18 00000004 00000000                    c dd 0 ; dublucuvantul C
+    19 00000008 <res 00000001>              n resb 1
+    20                                  
+    21                                  segment  code use32 class=code 
+    22                                      start:
+    23                                          
+    24                                          ; obtinem numărul întreg n reprezentat de bitii 0-2 ai lui A
+    25 00000000 66A1[00000000]                  mov  ax, [a]
+    26 00000006 6683E007                        and  ax, 0000000000000111b ; izolăm bitii 0-2 ai lui A
+    27 0000000A 66A3[08000000]                  mov [n], ax  
+    28                                  
+    29                                          ; obținem în B cuvântul rezultat prin rotirea spre dreapta a lui A cu n poziții
+    30 00000010 668B1D[00000000]                mov  bx, [a] ; bx = A
+    31 00000017 8A0D[08000000]                  mov cl, [n]
+    32 0000001D 66D3CB                          ror  bx, cl; rotirea spre dreapta cu n poziții
+    33                                  
+    34                                          ; obținem dublucuvântul C conform cerințelor 
+    35 00000020 8B15[00000000]                  mov  edx, [a] ; edx = A
+    36 00000026 C1E209                          shl  edx, 9  ; deplasăm bitii 9-15 în pozițiile 16-22
+    37 00000029 8915[08000000]                  mov  [c+4], edx ; Salvăm rezultatul în partea superioară a lui C
+    38                                  
+    39 0000002F 8B15[02000000]                  mov  edx, [b] ; edx = B
+    40 00000035 C1E202                          shl  edx, 2 ; deplasăm bitii 2-9 în pozițiile 16-23
+    41 00000038 0915[08000000]                  or   [c+4], edx ; adăugăm rezultatul la partea superioară a lui C
+    42                                  
+    43 0000003E 8B15[00000000]                  mov  edx, [a] ; edx = A
+    44 00000044 C1EA07                          shr  edx, 7  ; deplasăm bitii 7-14 în pozițiile 24-31
+    45 00000047 0915[04000000]                  or   [c], edx ; adăugăm rezultatul la partea inferioară a lui C
+    46                                  
+    47 0000004D 830D[04000000]01                or   dword [c], 0000000000000001b ; setăm bitii 0-7 ai lui C cu valoarea 1
+    48                                  
+    49 00000054 A1[04000000]                    mov  eax, [c] ;eax = C
+    50                                          
+    51 00000059 6A00                            push dword 0 
+    52 0000005B FF15[00000000]                  call [exit] 

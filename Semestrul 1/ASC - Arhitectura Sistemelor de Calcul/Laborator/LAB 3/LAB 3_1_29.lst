@@ -1,0 +1,70 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit               
+     6                                  import exit msvcrt.dll    
+     7                                  segment data use32 class=data
+     8                                      ;a - byte, b - word, c - double word, d - qword - Interpretare fara semn
+     9                                      ;d+c-b+(a-c)
+    10 00000000 0F                          a db 15
+    11 00000001 1900                        b dw 25
+    12 00000003 0A000000                    c dd 10
+    13 00000007 3200000000000000            d dq 50
+    14                                      
+    15                                  segment code use32 class=code
+    16                                      start:
+    17                                          ;d+c-b+(a-c)
+    18                                          ;c+d 
+    19 00000000 A1[07000000]                    mov eax, [d] 
+    20 00000005 8B15[0B000000]                  mov edx, [d+4]
+    21                                          
+    22 0000000B 8B0D[03000000]                  mov ecx, [c] 
+    23                                          
+    24 00000011 01C8                            add eax, ecx
+    25 00000013 83D200                          adc edx, 0  ;edx:eax = d+c
+    26                                          
+    27 00000016 52                              push edx
+    28 00000017 50                              push eax
+    29                                          
+    30                                          ;a-c
+    31                                          ;transformam byte a in dword
+    32 00000018 A0[00000000]                    mov al, [a]
+    33 0000001D B400                            mov ah, 0   ;ax = a
+    34                                          
+    35 0000001F 66BA0000                        mov dx, 0
+    36                                          
+    37 00000023 6652                            push dx
+    38 00000025 6650                            push ax
+    39 00000027 58                              pop eax
+    40                                          
+    41 00000028 2B05[03000000]                  sub eax, [c]
+    42 0000002E 89C1                            mov ecx, eax ;ecx = a-c
+    43                                          
+    44                                          ; il facem pe b din word in dword
+    45                                          
+    46 00000030 66A1[01000000]                  mov ax, [b]
+    47 00000036 66BA0000                        mov dx, 0
+    48                                          
+    49 0000003A 6652                            push dx
+    50 0000003C 6650                            push ax
+    51 0000003E 5B                              pop ebx ; b in ebx
+    52                                  
+    53 0000003F 58                              pop eax
+    54 00000040 5A                              pop edx
+    55                                          
+    56 00000041 29D8                            sub eax, ebx
+    57 00000043 83DA00                          sbb edx, 0
+    58                                          
+    59 00000046 01C8                            add eax, ecx
+    60 00000048 83D200                          adc edx, 0
+    61                                          
+    62                                          
+    63                                          
+    64                                          
+    65                                          
+    66                                          
+    67                                          
+    68                                          
+    69 0000004B 6A00                            push    dword 0      
+    70 0000004D FF15[00000000]                  call    [exit]   

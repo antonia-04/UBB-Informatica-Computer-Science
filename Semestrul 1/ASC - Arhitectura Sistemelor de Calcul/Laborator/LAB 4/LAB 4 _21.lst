@@ -1,0 +1,53 @@
+     1                                  ;Se dau cuvintele A si B. Se cere dublucuvantul C:
+     2                                      ;bitii 0-3 ai lui C coincid cu bitii 5-8 ai lui B
+     3                                      ;bitii 4-10 ai lui C sunt invers fata de bitii 0-6 ai lui B
+     4                                      ;bitii 11-18 ai lui C sunt 1
+     5                                      ;bitii 19-31 ai lui C coincid cu bitii 3-15 ai lui B
+     6                                  
+     7                                  bits 32 ; Asamblare și compilare pentru arhitectura de 32 de biți
+     8                                  
+     9                                  global start
+    10                                  extern exit
+    11                                  import exit msvcrt.dll
+    12                                  
+    13                                  section data use32 class=data
+    14 00000000 5777                        A dw 0111011101010111b
+    15 00000002 BE9B                        B dw 1001101110111110b
+    16 00000004 00000000                    C dd 0                
+    17                                  
+    18                                  section code use32 class=code
+    19                                  start:
+    20 00000000 31C0                        xor eax, eax
+    21                                      ; izolare biti 5-8 ai lui B si copierea lor in bitii 0-3 ai lui C
+    22 00000002 66A1[02000000]              mov ax, [B]
+    23 00000008 6625E000                    and ax, 0000000011100000b ; bitii 5-8
+    24 0000000C B105                        mov cl, 5 ; 0000000000000111b
+    25 0000000E 66D3E8                      shr ax, cl                ; shift la dr pt a aduce bitii în poziția 0-3
+    26 00000011 98                          cwde
+    27 00000012 0905[04000000]              or dword [C], eax          ; adăugare la C
+    28                                  
+    29                                      ; inversarea bitilor 0-6 ai lui B și copierea lor în bitii 4-10 ai lui C
+    30 00000018 66A1[02000000]              mov ax, [B]
+    31 0000001E 66F7D0                      not ax                     ; inversare biti
+    32 00000021 6683E07F                    and ax, 0000000001111111b ; izolare bitii 0-6
+    33 00000025 B104                        mov cl, 4 
+    34 00000027 66D3E0                      shl ax, cl                ; shift la st pt a aduce bitii în poziția 4-10
+    35 0000002A 98                          cwde
+    36 0000002B 0905[04000000]              or dword [C], eax          ; adaugam la C
+    37                                  
+    38                                      ; bitii 11-18 ai lui C vor fi valoarea 1
+    39 00000031 810D[04000000]00F8-         or dword [C], 00000000000001111111100000000000b 
+    39 00000039 0700               
+    40                                  
+    41                                      ; izolare biti 3-15 ai lui B și copierea lor în bitii 19-31 ai lui C
+    42 0000003B 66A1[02000000]              mov ax, [B]
+    43 00000041 6683E0F8                    and ax, 1111111111111000b ; izolare biti 3-15
+    44 00000045 B103                        mov cl, 3
+    45 00000047 66D3E8                      shr    ax, cl ; shift la dr pentru a aduce bitii în poziția 19-31
+    46 0000004A 66A3[08000000]              mov [C+4], ax    
+    47                                  
+    48 00000050 8B1D[04000000]              mov ebx, [C] ; EBX = C
+    49                                  
+    50                                  
+    51 00000056 6A00                        push dword 0
+    52 00000058 FF15[00000000]              call [exit]

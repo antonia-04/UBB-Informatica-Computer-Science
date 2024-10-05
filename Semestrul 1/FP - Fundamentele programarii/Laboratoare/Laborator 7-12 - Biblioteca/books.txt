@@ -1,0 +1,19 @@
+1;Harry Potter;J.K. Rowling;Magie adolescentina
+2;Crima si pedeapsa;F. Dostoievski;Constiinta si crima
+3;Moby Dick;Herman Melville;Vanatoare de balene
+4;Anna Karenina;Lev Tolstoi;Dragoste interzisa
+5;Romeo si Julieta;William Shakespeare;Dragoste tragica
+6;Dracula;Bram Stoker;Vampir si teroare
+7;1984;George Orwell;Societate controlata
+8;Micul Print;Antoine de Saint-Exupery;Inocenta si intelepciune
+9;O mie si una de nopti;Anonim;Povesti orientale
+10;Ariana;Ariana;Ariana
+11;Stapanul inelelor;J.R.R. Tolkien;Aventura fantastica
+12;Mandrie si prejudecata;Jane Austen;Comedie romantica
+13;Marele Gatsby;F. Scott Fitzgerald;Anii nebuni
+14;Sa ucizi o pasare cantatoare;Harper Lee;Injustitie rasiala
+15;Strajerul in rye;J.D. Salinger;Maturizare
+16;Cronicile din Narnia;C.S. Lewis;Serii de fantezie
+17;Codul lui Da Vinci;Dan Brown;Mistery Thriller
+18;Jocurile Foamei;Suzanne Collins;Supravietuire distopica
+19;bbb;nnnn;aaaa

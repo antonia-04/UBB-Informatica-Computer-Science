@@ -1,0 +1,90 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  ; declare external functions needed by our program
+     6                                  extern exit, fopen, fclose, fprintf               
+     7                                  import exit msvcrt.dll 
+     8                                  import fopen msvcrt.dll
+     9                                  import fclose msvcrt.dll 
+    10                                  import fprintf msvcrt.dll
+    11                                  
+    12                                  segment data use32 class=data
+    13 00000000 313233343536376162-         text dd '1234567abc12'
+    13 00000009 633132             
+    14                                      len equ $-text
+    15 0000000C 00000000                    suma dd '', 0 ; suma o sa fie stocata aici
+    16                                      
+    17 00000010 53756D612E74787400          nume_fisier db "Suma.txt", 0
+    18 00000019 7700                        mod_acces db "w", 0 ; w = scriere, se va crea fisierul daca el nu exista
+    19 0000001B FFFFFFFF                    descriptor_fisier dd -1 ; variabila in care salvam descriptorul fisierului - pt referire la fisier
+    20                                      
+    21 0000001F 256400                      format db "%d", 0
+    22                                      
+    23                                  segment code use32 class=code
+    24                                      start:
+    25                                          ; Se dau in segmentul de date un nume de fisier si un text (poate contine orice tip de caracter). Sa se calculeze suma cifrelor din text. Sa se creeze un fisier cu numele dat si sa se scrie suma obtinuta in 
+    26                                          
+    27                                          
+    28                                          ; apelam fopen pentru a crea fisierul
+    29                                          ; functia va returna in EAX descriptorul fisierului sau 0 in caz de eroare
+    30                                          ; eax = fopen(nume_fisier, mod_acces)
+    31 00000000 68[19000000]                    push dword mod_acces     
+    32 00000005 68[10000000]                    push dword nume_fisier
+    33 0000000A FF15[00000000]                  call [fopen]
+    34 00000010 83C408                          add esp, 4*2                ; eliberam parametrii de pe stiva
+    35                                  
+    36 00000013 A3[1B000000]                    mov [descriptor_fisier], eax   ; salvam valoarea returnata de fopen in variabila descriptor_fis
+    37                                          
+    38                                          ; verificam daca functia fopen a creat cu succes fisierul (daca EAX != 0)
+    39 00000018 83F800                          cmp eax, 0
+    40 0000001B 746A                            je eroare_deschidere
+    41                                          
+    42                                          ;parcurgem text-ul
+    43 0000001D B800000000                      mov eax, 0 ; suma va fi in eax pt ca trebuie pusa pe stiva (nu mai avem nevoie de descriptor in eax deci e liber eax)
+    44 00000022 B900000000                      mov ecx, 0
+    45 00000027 B90C000000                      mov ecx, len ; ecx = lungime sir
+    46 0000002C FC                              cld ; parcurgem de la stanga la dreapta
+    47 0000002D BE00000000                      mov esi, 0 ;esi = iteratorul
+    48                                          
+    49 00000032 E325                            jecxz Sfarsit ;loop-ul se termina cand ecx e zero
+    50                                          ; ASCII pt cifre de la 48 la 57
+    51                                          Loop1:
+    52 00000034 80BE[00000000]30                    cmp [text + esi], byte '0'
+    53 0000003B 7219                                jb nu_este_cifra ; daca rezultatul scaderii este sub 0 atunci nu e cifra si va sari
+    54                                              
+    55 0000003D 80BE[00000000]39                    cmp [text + esi], byte '9'
+    56 00000044 7710                                ja nu_este_cifra ; daca rezultatul scaderii este peste 9 atunci nu este cifra
+    57                                              
+    58                                              ; se continua daca e cifra
+    59 00000046 BB00000000                          mov ebx, 0
+    60 0000004B 8A9E[00000000]                      mov bl, [text + esi]
+    61 00000051 80EB30                              sub bl, 48 ; converteste bl care este char in int
+    62 00000054 00D8                                add al, bl ; in al va fi suma
+    63                                              nu_este_cifra:
+    64                                              
+    65 00000056 46                                  inc esi ;trecem la urmatoarea
+    66 00000057 E2DB                                loop Loop1
+    67                                              
+    68                                          Sfarsit:
+    69 00000059 A3[0C000000]                    mov [suma], eax ; mutam in suma 
+    70                                          
+    71                                          
+    72                                          ;scrierea in fisier fprintf(descriptor_fis,format, text)
+    73 0000005E FF35[0C000000]                  push dword [suma]
+    74 00000064 68[1F000000]                    push dword format
+    75 00000069 FF35[1B000000]                  push dword [descriptor_fisier]
+    76 0000006F FF15[00000000]                  call [fprintf]
+    77 00000075 83C40C                          add esp, 4 * 3
+    78                                          
+    79                                          ; apelam fclose pentru inchiderea fisierului
+    80 00000078 FF35[1B000000]                  push dword [descriptor_fisier]
+    81 0000007E FF15[00000000]                  call [fclose]
+    82 00000084 83C404                          add esp, 4
+    83                                          
+    84                                          
+    85                                          eroare_deschidere:
+    86                                      
+    87                                          ; exit(0)
+    88 00000087 6A00                            push    dword 0   
+    89 00000089 FF15[00000000]                  call    [exit]       

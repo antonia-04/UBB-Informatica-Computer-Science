@@ -1,0 +1,44 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit, printf              
+     6                                  import exit msvcrt.dll    
+     7                                  import printf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 F7FF                        a dw -9
+    11 00000002 0500                        b dw 5
+    12 00000004 2564202A202564203D-         format db "%d * %d = %d", 0
+    12 0000000D 20256400           
+    13                                  
+    14                                  segment code use32 class=code
+    15                                      start:
+    16                                          ;4. Se dau doua numere naturale a si b (a, b: word, definite in segmentul de date). Sa se calculeze produsul lor si sa se afiseze in urmatorul format: "<a> * <b> = <result>"
+    17                                          
+    18 00000000 66A1[00000000]                  mov ax, [a]
+    19 00000006 668B15[02000000]                mov dx, [b]
+    20 0000000D 66F7EA                          imul dx   ;rezultat in dx:ax 
+    21                                          
+    22 00000010 6652                            push dx  ; punem cuvantul inferior (dX)
+    23 00000012 6650                            push ax
+    24 00000014 58                              pop eax  ; rezultatul e in eax
+    25                                          
+    26 00000015 50                              push eax ; rezultatul este in stiva acum
+    27                                          
+    28                                          ;convertim b in dword si il punem in stiva
+    29 00000016 66A1[02000000]                  mov ax, [b]
+    30 0000001C 98                              cwde 
+    31 0000001D 50                              push eax ; b este in stiva acum
+    32                                          
+    33                                          ;convertim a in dword si il punem in stiva
+    34 0000001E 66A1[00000000]                  mov ax, [a]
+    35 00000024 98                              cwde 
+    36 00000025 50                              push eax ; a este in stiva acum
+    37                                          
+    38 00000026 68[04000000]                    push dword format
+    39 0000002B FF15[00000000]                  call [printf]
+    40                                          
+    41                                          ; exit(0)
+    42 00000031 6A00                            push    dword 0      
+    43 00000033 FF15[00000000]                  call    [exit]      

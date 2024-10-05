@@ -1,0 +1,10 @@
+1;Harry Potter;J.K. Rowling;Magie adolescentină
+2;Crimă și pedeapsă;F. Dostoievski;Conștiință și crimă
+3;Moby Dick;Herman Melville;Vânătoare de balene
+4;Anna Karenina;Lev Tolstoi;Dragoste interzisă
+5;Romeo și Julieta;William Shakespeare;Dragoste tragică
+6;Dracula;Bram Stoker;Vampir și teroare
+7;1984;George Orwell;Societate controlată
+8;Micul Prinț;Antoine de Saint-Exupéry;Inocență și înțelepciune
+9;O mie și una de nopți;Anonim;Povești orientale
+10;Divina Comedie;Dante Alighieri;Călătorie infernală

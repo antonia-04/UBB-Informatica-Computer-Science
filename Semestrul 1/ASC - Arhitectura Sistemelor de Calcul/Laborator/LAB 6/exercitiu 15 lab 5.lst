@@ -1,0 +1,60 @@
+     1                                  bits 32 
+     2                                  global start        
+     3                                  
+     4                                  extern exit               
+     5                                  import exit msvcrt.dll    
+     6                                  
+     7                                  segment data use32 class=data
+     8 00000000 02010303040206              A db 2, 1, 3, 3, 4, 2, 6
+     9                                      la equ $-A
+    10 00000007 040507060201                B db 4, 5, 7, 6, 2, 1
+    11                                      lb equ $-B
+    12 0000000D 00<rept>                    R times la+lb db 0
+    13                                      
+    14                                  segment code use32 class=code
+    15                                      start:
+    16                                          ;Elementele din A multiplu de 3 in ordine inversa
+    17 00000000 B907000000                      mov ecx, la
+    18 00000005 BE07000000                      mov esi, la
+    19 0000000A 4E                              dec esi
+    20 0000000B BF00000000                      mov edi, 0
+    21                                          
+    22 00000010 E321                            jecxz SfarsitA
+    23                                          
+    24                                          RepetaA:
+    25 00000012 8A86[00000000]                      mov al, [A + esi]
+    26 00000018 6698                                cbw
+    27 0000001A B303                                mov bl, 3
+    28 0000001C F6FB                                idiv bl
+    29                                              
+    30 0000001E 80FC00                              cmp ah, 0
+    31                                              
+    32 00000021 750D                                jne nuMultiplu
+    33                                              
+    34 00000023 8A86[00000000]                      mov al, [A + esi]
+    35 00000029 8887[0D000000]                      mov [R + edi], al
+    36 0000002F 47                                  inc edi
+    37                                              
+    38                                              nuMultiplu:
+    39                                              
+    40 00000030 4E                                  dec esi
+    41                                              
+    42 00000031 E2DF                            loop RepetaA 
+    43                                          
+    44                                          SfarsitA: 
+    45                                          
+    46                                          ;Adaugam in ordine elementele din B
+    47                                          
+    48 00000033 B906000000                      mov ecx, lb
+    49 00000038 BE00000000                      mov esi, 0
+    50 0000003D E30E                            jecxz Sfarsit
+    51                                          RepetaB:
+    52 0000003F 8A86[07000000]                      mov al, [B + esi]
+    53 00000045 8887[0D000000]                      mov [R + edi], al
+    54 0000004B 47                                  inc edi
+    55 0000004C 46                                  inc esi
+    56                                  
+    57                                          Sfarsit:
+    58                                              
+    59 0000004D 6A00                            push    dword 0      
+    60 0000004F FF15[00000000]                  call    [exit]       

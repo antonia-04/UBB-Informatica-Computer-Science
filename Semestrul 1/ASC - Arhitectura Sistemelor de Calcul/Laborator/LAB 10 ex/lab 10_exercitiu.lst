@@ -1,0 +1,80 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit, scanf, fprintf, fopen, fclose             
+     6                                  import exit msvcrt.dll    
+     7                                  import scanf msvcrt.dll
+     8                                  import fprintf msvcrt.dll
+     9                                  import fopen msvcrt.dll
+    10                                  import fclose msvcrt.dll
+    11                                     
+    12                                  segment data use32 class=data
+    13 00000000 00000000                    a dd 0
+    14 00000004 00000000                    b dd 0
+    15 00000008 2564202F6E20256400          format1 db '%d /n %d', 0
+    16 00000011 2564                        format db '%d'
+    17                                      
+    18 00000013 41646976422E747874-         nume_fisier db "AdivB.txt", 0
+    18 0000001C 00                 
+    19 0000001D 7700                        mod_acces db "w", 0 ; w = scriere, se va crea fisierul daca el nu exista
+    20 0000001F FFFFFFFF                    descriptor_fisier dd -1 ; variabila in care salvam descriptorul fisierului - pt referire la fisier
+    21                                      
+    22                                  
+    23                                  segment code use32 class=code
+    24                                      start:
+    25 00000000 68[1D000000]                    push dword mod_acces     
+    26 00000005 68[13000000]                    push dword nume_fisier
+    27 0000000A FF15[00000000]                  call [fopen]
+    28 00000010 83C408                          add esp, 4*2                ; eliberam parametrii de pe stiva
+    29                                  
+    30 00000013 A3[1F000000]                    mov [descriptor_fisier], eax   ; salvam valoarea returnata de fopen in variabila descriptor_fis
+    31                                          
+    32                                          ; verificam daca functia fopen a creat cu succes fisierul (daca EAX != 0)
+    33 00000018 83F800                          cmp eax, 0
+    34 0000001B 745F                            je eroare_deschidere
+    35                                          
+    36 0000001D 68[00000000]                    push dword a
+    37 00000022 68[11000000]                    push dword format
+    38 00000027 FF15[00000000]                  call [scanf]
+    39 0000002D 83C408                          add esp, 2 * 4
+    40                                          
+    41 00000030 68[04000000]                    push dword b
+    42 00000035 68[11000000]                    push dword format
+    43 0000003A FF15[00000000]                  call [scanf]
+    44 00000040 83C408                          add esp, 2 * 4
+    45                                          
+    46 00000043 66A1[00000000]                  mov ax, [a]
+    47 00000049 8A1D[04000000]                  mov bl, [b]
+    48                                          
+    49 0000004F F6F3                            div bl  ;cat = al, rest = ah
+    50                                          
+    51                                          ; mov bl, ah
+    52                                          
+    53 00000051 0FB6DC                          movzx ebx, ah ;convertim restul in dword
+    54                                          
+    55                                          ;convertim catul in dword
+    56 00000054 6698                            cbw
+    57 00000056 98                              cwde
+    58                                          
+    59                                          ; cat = eax, rest = ebx
+    60                                          
+    61                                          ;afisam 
+    62                                          
+    63                                          ;scrierea in fisier fprintf(descriptor_fis,format, text)
+    64 00000057 53                              push ebx
+    65 00000058 50                              push eax
+    66 00000059 68[08000000]                    push dword format1
+    67 0000005E FF35[1F000000]                  push dword [descriptor_fisier]
+    68 00000064 FF15[00000000]                  call [fprintf]
+    69 0000006A 83C410                          add esp, 4 * 4
+    70                                          
+    71                                          ; apelam fclose pentru inchiderea fisierului
+    72 0000006D FF35[1F000000]                  push dword [descriptor_fisier]
+    73 00000073 FF15[00000000]                  call [fclose]
+    74 00000079 83C404                          add esp, 4
+    75                                          
+    76                                          
+    77                                          eroare_deschidere:
+    78 0000007C 6A00                            push    dword 0      
+    79 0000007E FF15[00000000]                  call    [exit]       

@@ -56,5 +56,5 @@
 
 5. **📈 Probabilități și Statistică**  
 
-6. **Limba engleză**  
+6. ** 🇬🇧 Limba engleză**  
 

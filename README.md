@@ -1,6 +1,6 @@
 # UBB - Informatica - Computer Science
 **Universitatea Babeș-Bolyai**  
-**Specializarea Informatica - limba română**
+**Specializarea Informatica - limba română**  
 
 ---
 
@@ -20,11 +20,10 @@
 5. **🔍 Logica Computațională**  
 
 6. **🧠 DPPD: Psihologia Educației**  
+
 ---
 
 ### Semestrul 2
-
-- to be added
 
 1. **🕸️ Algoritmica Grafelor/Grafurilor**  
 
@@ -40,4 +39,22 @@
 
 7. **📖 DPPD: Fundamentele Pedagogiei și Teoria și Metodologia Curriculumului**  
 
+---
+
+## Anul 2 
+### 2024-2025
+
+### Semestrul 1
+
+1. **🧑‍💻 Metode Avansate de Programare** (Limbajul Java)  
+
+2. **🔄 Programare Logică și Funcțională** (Limbajele Prolog, Lisp)  
+
+3. **📡 Rețele de Calculatoare**  
+
+4. **📚 Baze de Date**  
+
+5. **📈 Probabilități și Statistică**  
+
+6. **Limba engleză**  
 

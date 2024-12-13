@@ -46,13 +46,13 @@
 
 ### Semestrul 1
 
-1. **🧑‍💻 Metode Avansate de Programare** (Limbajul Java)  
+1. **🧑‍💻 Metode Avansate de Programare** (Limbajele Java, C#)  
 
 2. **🔄 Programare Logică și Funcțională** (Limbajele Prolog, Lisp)  
 
 3. **📡 Rețele de Calculatoare**  
 
-4. **📚 Baze de Date**  
+4. **📚 Baze de Date (SQL)**  
 
 5. **📈 Probabilități și Statistică**  
 

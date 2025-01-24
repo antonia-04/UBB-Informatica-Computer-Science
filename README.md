@@ -23,7 +23,7 @@
 
 ---
 
-### Semestrul 2
+### Semestrul 2 (to be added)
 
 1. **🕸️ Algoritmica Grafelor/Grafurilor**  
 

@@ -23,7 +23,7 @@
 
 ---
 
-### Semestrul 2 (to be added)
+### Semestrul 2 
 
 1. **🕸️ Algoritmica Grafelor/Grafurilor**  
 
@@ -35,7 +35,7 @@
 
 5. **💻 Programare Orientată pe Obiect** (Limbajele C, C++)  
 
-6. **🐧 Sisteme de Operare** (Linux)  
+6. **🐧 Sisteme de Operare** (Linux)   (to be added)
 
 7. **📖 DPPD: Fundamentele Pedagogiei și Teoria și Metodologia Curriculumului**  
 

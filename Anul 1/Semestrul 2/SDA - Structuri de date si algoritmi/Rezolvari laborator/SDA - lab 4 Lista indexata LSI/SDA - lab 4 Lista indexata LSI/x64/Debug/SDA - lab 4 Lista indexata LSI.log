@@ -1,0 +1,11 @@
+﻿  App.cpp
+LI.obj : error LNK2019: unresolved external symbol "private: __cdecl IteratorLI::IteratorLI(class LI const &)" (??0IteratorLI@@AEAA@AEBVLI@@@Z) referenced in function "public: class IteratorLI __cdecl LI::iterator(void)const " (?iterator@LI@@QEBA?AVIteratorLI@@XZ)
+TestExtins.obj : error LNK2019: unresolved external symbol "public: void __cdecl IteratorLI::prim(void)" (?prim@IteratorLI@@QEAAXXZ) referenced in function "void __cdecl testAdauga(void)" (?testAdauga@@YAXXZ)
+TestScurt.obj : error LNK2001: unresolved external symbol "public: void __cdecl IteratorLI::prim(void)" (?prim@IteratorLI@@QEAAXXZ)
+TestExtins.obj : error LNK2019: unresolved external symbol "public: void __cdecl IteratorLI::urmator(void)" (?urmator@IteratorLI@@QEAAXXZ) referenced in function "void __cdecl testAdauga(void)" (?testAdauga@@YAXXZ)
+TestScurt.obj : error LNK2001: unresolved external symbol "public: void __cdecl IteratorLI::urmator(void)" (?urmator@IteratorLI@@QEAAXXZ)
+TestExtins.obj : error LNK2019: unresolved external symbol "public: bool __cdecl IteratorLI::valid(void)const " (?valid@IteratorLI@@QEBA_NXZ) referenced in function "void __cdecl testAdauga(void)" (?testAdauga@@YAXXZ)
+TestScurt.obj : error LNK2001: unresolved external symbol "public: bool __cdecl IteratorLI::valid(void)const " (?valid@IteratorLI@@QEBA_NXZ)
+TestExtins.obj : error LNK2019: unresolved external symbol "public: int __cdecl IteratorLI::element(void)const " (?element@IteratorLI@@QEBAHXZ) referenced in function "void __cdecl testAdauga(void)" (?testAdauga@@YAXXZ)
+TestScurt.obj : error LNK2001: unresolved external symbol "public: int __cdecl IteratorLI::element(void)const " (?element@IteratorLI@@QEBAHXZ)
+C:\Users\Antonia\source\repos\SDA - lab 4 Lista indexata LSI\x64\Debug\SDA - lab 4 Lista indexata LSI.exe : fatal error LNK1120: 5 unresolved externals

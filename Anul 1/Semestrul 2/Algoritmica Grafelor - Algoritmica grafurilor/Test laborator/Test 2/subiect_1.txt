@@ -1,0 +1,29 @@
+pr nota 10 (max 60 minute)
+Sa se codeze si sa se decodeze Huffman un text dat. La constructia arborelui folosit pentru
+stabilirea codurilor Huffman, prioritatea la alegerea nodurilor este frecventa,
+iar in caz de egalitate, se alege nodul in al carui subgraf se gaseste
+caracterul cu codul ASCII cel mai mic. Implementarea trebuie sa fie eficienta
+din punctul de vedere al memoriei folosite si al timpului de executie.
+
+Fisierul de intrare contine un text. Lungimea textului va fi de maxim 10000 de caractere.
+
+Fisierul de iesire va contine alfabetul folosit in codarea Huffman si textul
+codat. Pe prima linie se va gasi un numar N reprezentând numarul de caractere
+din alfabet. Pe urmatoarele N linii se gaseste descris alfabetul. Fiecare linie
+contine un caracter ch, un spatiu si un numar fr (fara alte spatii albe). fr
+este frecventa caracterului ch in textul dat in fisierul de intrare. Alfabetul
+va fi afisat in ordinea lexicografica a caracterelor (in functie de codul
+ASCII). Pe urmatoarea linie se gaseste un sir format din 0 si 1, reprezentând
+codarea Huffman a textului din fisierul de intrare.
+
+Pentru decodarea Huffman, la constructia arborelui folosit pentru stabilirea codurilor
+Huffman, prioritatea la alegerea nodurilor este frecventa, iar in caz de
+egalitate, se alege nodul in al carui subarbore se gaseste caracterul cu codul
+ASCII cel mai mic. Implementarea trebuie sa fie eficienta din punctul de vedere
+al memoriei folosite si al timpului de executie.
+
+
+pr nota 5 (max 25 minute)
+Se da un fisier graf.txt ce contine un multigraf neorientat. Multigraful este reprezentat 
+sub forma de lista de muchii unde prima linie arata ordinul si dimensiunea grafului (n, m).
+Sa se verifice daca multigraful dat este graf simplu.

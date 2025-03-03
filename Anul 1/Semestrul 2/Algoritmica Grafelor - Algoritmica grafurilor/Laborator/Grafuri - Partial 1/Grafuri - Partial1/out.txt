@@ -1,0 +1,1 @@
+Exista o ruta! Costul drumului minim de la 1 la 2 este: 5

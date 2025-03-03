@@ -1,0 +1,12 @@
+# Ignoră fișierele CMake generate
+cmake-build-debug/
+.cmake/
+*.json
+
+# Ignoră fișierele Code::Blocks
+*.cbp
+*.depend
+*.layout
+
+# Ignoră fișierele din `.idea/` (dacă folosești JetBrains)
+.idea/

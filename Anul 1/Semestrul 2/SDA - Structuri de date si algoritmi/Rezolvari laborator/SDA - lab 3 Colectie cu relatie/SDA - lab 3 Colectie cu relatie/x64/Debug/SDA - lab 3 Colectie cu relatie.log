@@ -1,0 +1,8 @@
+﻿  App.cpp
+  Colectie.cpp
+  IteratorColectie.cpp
+  TestExtins.cpp
+  TestScurt.cpp
+  Generating Code...
+C:\Users\Antonia\source\repos\SDA - lab 3 Colectie cu relatie\SDA - lab 3 Colectie cu relatie\Colectie.cpp(132,1): warning C4715: 'Colectie::cauta': not all control paths return a value
+  SDA - lab 3 Colectie cu relatie.vcxproj -> C:\Users\Antonia\source\repos\SDA - lab 3 Colectie cu relatie\x64\Debug\SDA - lab 3 Colectie cu relatie.exe

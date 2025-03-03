@@ -1,0 +1,31 @@
+//Stiva.h
+
+typedef int TElem;
+
+
+class Stiva {
+	private:
+		/* aici e reprezentarea */
+	public:
+		//constructorul implicit
+		Stiva();
+
+		//adauga un element in stiva
+		void adauga(TElem e);
+
+		//acceseaza elementul din varful stivei 
+		//arunca exceptie daca Stiva e vida
+		TElem element() const;
+
+		//sterge elementul din varful stivei si returneaza elementul sters (principiul LIFO)
+		//arunca exceptie daca Stiva e vida
+		TElem sterge();
+
+		//verifica daca stiva e vida;
+		bool vida() const;
+
+		// destructorul Stivai
+		~Stiva();
+
+};
+

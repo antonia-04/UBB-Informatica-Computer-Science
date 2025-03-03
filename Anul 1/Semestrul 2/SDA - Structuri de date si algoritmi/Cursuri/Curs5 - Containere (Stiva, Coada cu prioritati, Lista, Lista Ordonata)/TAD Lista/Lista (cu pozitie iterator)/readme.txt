@@ -1,0 +1,1 @@
+Lista cu pozitie iterator - implementare folosind o LDI alocata dinamic

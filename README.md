@@ -2,6 +2,9 @@
 **Universitatea Babeș-Bolyai**  
 **Specializarea Informatica - limba română**  
 
+## Notițe și exerciții: USE WITH CARE!
+## Succes! <3
+
 ---
 
 ## Anul 1 

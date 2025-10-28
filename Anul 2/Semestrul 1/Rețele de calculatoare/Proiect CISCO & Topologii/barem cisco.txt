@@ -1,0 +1,11 @@
+Barem CISCO 
+IP 5p
+NM 15p
+GW 5p
+DHCP 10p
+DNS 15p
+HTTP 5p
+Comenzi DOS (comunicare intre calculatoare) 5p
+Rutare 15p
+Wireless (AP, Router) 10p
+NAT 15p

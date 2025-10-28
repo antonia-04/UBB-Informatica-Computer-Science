@@ -1,0 +1,51 @@
+%6
+% a. Intr-o lista L sa se inlocuiasca toate aparitiile unui element E cu
+% elementele unei alte liste, L1.
+% b.  Se da o lista eterogena, formata din numere intregi si liste de numere
+% intregi.
+% In fiecare sublista sa se inlocuiasca toate aparitiile primului
+% element din sublista cu o lista data.
+
+%a.
+%model de flux: (i,i,o) - determinist
+%concatenare(L, L1, Rez)
+%L: lista pe care o inseram
+%L1: lista initiala (in ea inseram)
+%Rez: lista concatenata
+concatenare([], L, L).
+concatenare([H|T], L, [H|Rez]):-
+    concatenare(T, L, Rez).
+
+%inloc(L, E, L1, Rez)
+%L: lista initiala
+%E: elem pe care il inlocuim
+%L1: lista cu care inlocuim
+%Rez: lista care ne va fi returnata
+%model de flux: (i,i,i, o)
+inloc([], _, _, []).
+inloc([H|T], E, L1, [H|Rez]):-
+    H \= E,
+    inloc(T, E, L1, Rez).
+inloc([E|T], E, L1, Rez):-
+    inloc(T, E, L1, R1),
+    concatenare(L1, R1, Rez).
+
+%b.
+%model de flux: (i,o) - determinist
+%primul(L:lista, E: int, primul elem)
+primul([H|_], H).
+
+%model de flux: (i, i, o) - determinist
+%inlocuire(L, L1, Rez)
+%L: lista initiala
+%L1: lista de inlocuit
+%Rez: lista rezultat
+inlocuireB([], _, []).
+inlocuireB([H|T], L2, [H|R]):-
+    \+ is_list(H),
+    inlocuireB(T, L2, R).
+inlocuireB([H|T], L2, [R1|R]):-
+    is_list(H),
+    primul(H, E),
+    inloc(H, E, L2, R1),
+    inlocuireB(T,L2, R).

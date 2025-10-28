@@ -1,0 +1,18 @@
+Creați o bază de date care gestionează competițiile în diferite orașe.
+
+
+a)Entitățile de interes pentru domeniul problemei sunt:Competiții,Tipuri de competiții,Orașe și Participanți
+b)o competiție este caracterizată prin denumire,dată de începere,dată de finalizare,tipul ei și orașul în care 
+	se desfășoară.
+c)un oraș este descris prin regiunea și țara în care se găsește
+d)un tip de competiție are o denumire și o descriere
+e)fiecare participant are nume,prenume,gen,dată de naștere
+f)corespunzător fiecărui participant la fiecare competiție se cunoaște taxa de participare și locul obținut la final
+
+
+Cerințe:
+1)scrieți un script SQL care creează un model relațional pentru a reprezenta datele(4)
+2)creați o procedură stocată care primește un participant,o competiție,o taxă de participare,
+	un loc obținut la final și adaugă participantul competiției. Dacă deja există,se 
+	actualizează taxa de participare și locul obținut la final(3p)
+3)creați un view care afișează denumirile competițiilor la care au fost cei mai mulți participanți(2p)

@@ -1,0 +1,12 @@
+CURSE DE MASINI
+
+1)
+Tip: denumire, descriere
+Masina: nr inmatriculare, brand, model, culoare,tip
+Locatii: tara, regiune, oras
+Curse: denumire, data inceput, data final, locatie
+o masina care participa la o anumita cursa are punct pornire, punct sosire si locul ocupat
+
+2)tabelele
+3)upsert MasinaCursa
+4)functie pt masini care au participat la mai mult de 3 curse

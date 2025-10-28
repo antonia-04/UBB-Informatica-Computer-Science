@@ -1,0 +1,7 @@
+-- SUBIECT INGHETATA
+CREATE DATABASE Gelaterie
+GO
+
+USE Gelaterie
+
+--TABELE

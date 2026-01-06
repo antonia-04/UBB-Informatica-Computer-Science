@@ -1,0 +1,14 @@
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\bin\Debug\net9.0\MAP - laborator 9.exe
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\bin\Debug\net9.0\MAP - laborator 9.deps.json
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\bin\Debug\net9.0\MAP - laborator 9.runtimeconfig.json
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\bin\Debug\net9.0\MAP - laborator 9.dll
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\bin\Debug\net9.0\MAP - laborator 9.pdb
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.AssemblyInfoInputs.cache
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.AssemblyInfo.cs
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.csproj.CoreCompileInputs.cache
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.dll
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\refint\MAP - laborator 9.dll
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.pdb
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\MAP - laborator 9.genruntimeconfig.cache
+C:\Users\Antonia\RiderProjects\MAP - laborator 9\MAP - laborator 9\obj\Debug\net9.0\ref\MAP - laborator 9.dll

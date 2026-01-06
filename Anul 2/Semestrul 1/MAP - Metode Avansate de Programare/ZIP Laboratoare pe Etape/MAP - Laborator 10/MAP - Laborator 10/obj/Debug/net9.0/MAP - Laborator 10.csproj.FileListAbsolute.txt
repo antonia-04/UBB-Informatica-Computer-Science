@@ -1,0 +1,19 @@
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\MAP - Laborator 10.exe
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\MAP - Laborator 10.deps.json
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\MAP - Laborator 10.runtimeconfig.json
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\MAP - Laborator 10.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\MAP - Laborator 10.pdb
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.csproj.AssemblyReference.cache
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.AssemblyInfoInputs.cache
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.AssemblyInfo.cs
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.csproj.CoreCompileInputs.cache
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - La.43798817.Up2Date
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\refint\MAP - Laborator 10.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.pdb
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\MAP - Laborator 10.genruntimeconfig.cache
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\obj\Debug\net9.0\ref\MAP - Laborator 10.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Antonia\RiderProjects\MAP - Laborator 10\MAP - Laborator 10\bin\Debug\net9.0\Npgsql.dll

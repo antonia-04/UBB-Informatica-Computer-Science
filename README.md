@@ -5,6 +5,15 @@
 ## Notițe și exerciții: USE WITH CARE!
 ## Succes! <3
 
+## 🔗 Resurse Utile / Alte Repo-uri
+Alte colecții de materiale și rezolvări de la colegi:
+
+* [**aabgx/UNIVERSITY**](https://github.com/aabgx/UNIVERSITY)
+* [**maguianca/UBB-INFO**](https://github.com/maguianca/UBB-INFO)
+* [**DeepSmeag/University**](https://github.com/DeepSmeag/University)
+* [**andreearusr/University**](https://github.com/andreearusr/University/tree/main)
+* [**bellaciaooo/UBB-CS**](https://github.com/bellaciaooo/UBB-CS)
+
 ---
 
 ## Anul 1 

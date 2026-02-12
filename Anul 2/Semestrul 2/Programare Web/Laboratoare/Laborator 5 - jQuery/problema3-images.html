@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Game - imagini</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    td {
+      border: 2px solid #333;
+      width: 80px;
+      height: 80px;
+      background-color: #47596b;
+      cursor: pointer;
+      text-align: center;
+      vertical-align: middle;
+    }
+    td.revealed {
+      background-color: #305373;
+      cursor: default;
+    }
+    td img {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      display: none; /* ascundem initial imaginea */
+    }
+    td.revealed img {
+      display: inline-block; /* afisam imaginea cand descoperim */
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <h2 style="text-align:center; color: darkblue;">
+      Memory Game - găsește perechile de personaje ascunse din universul Harry Potter!
+  </h2>
+
+  <table id="board"></table>
+
+<script>
+  $(function() {
+
+    var imagini = [
+          'ginny.jpg', 'ginny.jpg',
+          'dumbledore.jpeg', 'dumbledore.jpeg',
+          'ron.jpeg', 'ron.jpeg',
+          'hermione.jpeg', 'hermione.jpeg',
+          'harry.jpeg', 'harry.jpeg',
+          'newt.jpeg', 'newt.jpeg'
+    ];
+
+    var flippedCount = 0;    // nr total de celule descoperite corect
+    var flippedValues = [];  // stocheaza valorile (numele imaginilor) celulelor descoperite momentan
+    var flippedIds = [];     // stocheaza id-urile celulelor descoperite momentan
+    var busy = false;        // variabila pentru a preveni clickurile in timp ce se face verificarea perechilor
+
+    // functie pentru amestecarea elementelor dintr-un array 
+    // algoritmul Fisher-Yates Shuffle
+    function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+      while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex); // alege o pozitie random
+        currentIndex -= 1;
+        // schimba intre ele doua pozitii din array
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array; // amestecat
+    }
+
+    // functie pentru generarea tablei de joc
+    function createBoard() {
+      flippedCount = 0;    // resetam numarul de celule ghicite
+      flippedValues = [];  // resetam valorile momentan descoperite
+      flippedIds = [];     // resetam id-urile momentan descoperite
+      busy = false;        // putem face click-uri din nou
+
+      // amestecam vectorul cu imagini
+      imagini = shuffle(imagini);
+
+      var html = '';
+      // construim tabla: pentru fiecare imagine adaugam o celula <td> cu id si atribut data-value
+      for (var i=0; i<imagini.length; i++) {
+        html += '<td id="cell_'+i+'" data-value="'+imagini[i]+'">';
+        // adaugam tag-ul <img> cu sursa imaginii, dar imaginea va fi initial ascunsa prin CSS
+        html += '<img src="'+ imagini[i] +'" alt="img">';
+        html += '</td>';
+        // la fiecare 4 celule, incheiem randul si incepem altul (4 coloane pe rand)
+        if ((i+1) % 4 === 0) html += '</tr><tr>';
+      }
+      // adaugam continutul in tabelul cu id="board"
+      $('#board').html('<tr>'+html+'</tr>');
+    }
+
+    // eveniment la click pe o celula <td> din tabela
+    $('#board').on('click', 'td', function() {
+      if(busy) return; // daca suntem in perioada de asteptare pentru verificare, nu facem nimic
+
+      var $cell = $(this);
+
+      // daca celula e deja descoperita (clasa revealed) sau deja a fost selectata momentan, ignoram click-ul
+      if ($cell.hasClass('revealed') || flippedIds.includes($cell.attr('id'))) return;
+
+      // adaugam clasa revealed pentru a face vizibila imaginea (prin CSS)
+      $cell.addClass('revealed');
+
+      // retinem valoarea imaginii si id-ul celulei in vectorii temporari
+      flippedValues.push($cell.data('value'));
+      flippedIds.push($cell.attr('id'));
+
+      // daca am descoperit 2 celule, verificam daca sunt pereche
+      if(flippedValues.length === 2) {
+        // daca imaginile sunt identice
+        if(flippedValues[0] === flippedValues[1]) {
+          flippedCount += 2;       // marcam 2 celule ca ghicite
+          flippedValues = [];      // resetam temporarele
+          flippedIds = [];
+
+          // daca am ghicit toate celulele (toate perechile), afisam mesaj de castig si resetam tabla dupa 300ms
+          if(flippedCount === imagini.length) {
+            setTimeout(function() {
+              alert('Felicitari! Ai castigat jocul!');
+              createBoard();
+            }, 300);
+          }
+        } else {
+          // daca imaginile nu se potrivesc
+          busy = true;  // blocam clickurile pentru 2 secunde
+
+          // dupa 2 secunde ascundem imaginile descoperite si resetam temporarele
+          setTimeout(function() {
+            flippedIds.forEach(function(id) {
+              $('#'+id).removeClass('revealed');
+            });
+            flippedValues = [];
+            flippedIds = [];
+            busy = false; // deblocam clickurile
+          }, 2000);
+        }
+      }
+    });
+
+    // initializam tabla la incarcarea paginii
+    createBoard();
+
+  });
+</script>
+
+
+</body>
+</html>

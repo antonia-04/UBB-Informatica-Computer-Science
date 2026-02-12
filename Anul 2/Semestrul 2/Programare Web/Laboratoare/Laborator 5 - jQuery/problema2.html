@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Problema 2</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    .error {
+      border: 3px solid red;
+    }
+    body {
+      background-color: lavender;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="myForm">
+    <label for="name">Nume:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="birthdate">Data Nasterii (dd-mm-yyyy):</label>
+    <input type="text" id="birthdate" name="birthdate" required><br><br>
+
+    <label for="age">Varsta:</label>
+    <input type="number" id="age" name="age" required><br><br>
+
+    <label for="email">Adresa de e-mail:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="button" id="submitBtn">Trimite</button>
+  </form>
+
+  <script>
+    $(document).ready(function () {
+      // cand se apasa pe butonul de trimitere
+      $('#submitBtn').click(function () {
+        let errors = [];
+
+        // scoatem clasa de eroare de pe toate campurile la resubmit
+        $('#myForm input').removeClass('error');
+
+        // preluam valorile introduse in formular
+        const name = $('#name').val().trim();
+        const birthdate = $('#birthdate').val().trim();
+        const age = $('#age').val().trim();
+        const email = $('#email').val().trim();
+
+        // validam numele - sa nu fie gol
+        if (name === '') {
+          errors.push('nume');
+          $('#name').addClass('error');
+        }
+
+        // validam data nasterii - format corect si sa fie in trecut
+        const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
+        if (!dateRegex.test(birthdate)) {
+          errors.push('data nasterii (formatul dd-mm-yyyy)');
+          $('#birthdate').addClass('error');
+        } else {
+          // transformam stringul in obiect Date
+          const parts = birthdate.split('-');
+          const dateObj = new Date(parts[2], parts[1] - 1, parts[0]);
+          const today = new Date();
+          if (dateObj >= today) {
+            errors.push('data nasterii (trebuie sa fie in trecut)');
+            $('#birthdate').addClass('error');
+          }
+        }
+
+        // validam varsta - sa fie numar pozitiv
+        if (isNaN(age) || age <= 0) {
+          errors.push('varsta');
+          $('#age').addClass('error');
+        }
+
+        // validam emailul - regex simplu pentru format corect
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          errors.push('adresa de e-mail');
+          $('#email').addClass('error');
+        }
+
+        // afisam mesaj in functie de erori
+        if (errors.length > 0) {
+          alert('Campurile ' + errors.join(', ') + ' nu sunt completate corect.');
+        } else {
+          alert('Succes! Datele sunt completate corect!');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

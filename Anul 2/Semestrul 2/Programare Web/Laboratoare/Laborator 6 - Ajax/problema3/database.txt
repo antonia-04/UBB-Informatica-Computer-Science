@@ -1,0 +1,1 @@
+http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=bookdemo&table=books

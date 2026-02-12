@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Problema 6 - jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table,
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        td {
+            height: 50px;
+            min-width: 50px;
+        }
+
+        body {
+            background: lavender;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="myTable" style="width: 180px; margin-top: 1em;"></table>
+
+    <script>
+        var empty, dim = 3; // pozitia spatiului gol si dimensiunea tablei
+
+        // functia care genereaza tabla si o adauga in DOM
+        function generateTable() {
+            var numbers;
+
+            // genereaza o configuratie rezolvabila
+            do {
+                numbers = generateNumbers(dim * dim);
+            } while (!isSolvable(numbers));
+
+            var output = "";
+            for (let i = 0; i < dim; i++) {
+                output += '<tr>';
+                for (let j = 0; j < dim; j++) {
+                    let id = i * dim + j;
+                    let elem = numbers.pop();
+                    output += `<td id='${id}'>`;
+                    if (elem != dim * dim) {
+                        output += elem;
+                    } else {
+                        empty = id; // salveaza pozitia spatiului gol
+                    }
+                    output += '</td>';
+                }
+                output += '</tr>';
+            }
+
+            // adauga tabelul in DOM folosind jQuery
+            $('#myTable').html(output);
+        }
+
+        // functie care verifica daca tabla este rezolvabila (numar par de inversari)
+        function isSolvable(array) {
+            let inversions = 0;
+            let flat = array.filter(x => x !== dim * dim);
+            for (let i = 0; i < flat.length - 1; i++) {
+                for (let j = i + 1; j < flat.length; j++) {
+                    if (flat[i] > flat[j]) inversions++;
+                }
+            }
+            return inversions % 2 === 0;
+        }
+
+        // functie care interschimba doua celule
+        function swap(id1, id2) {
+            let temp = $('#' + id1).html();
+            $('#' + id1).html($('#' + id2).html());
+            $('#' + id2).html(temp);
+            empty = id2; // actualizeaza pozitia spatiului gol
+        }
+
+        // detecteaza tastele apasate
+        $(document).keydown(function (e) {
+            if (e.which == 38) { // sus
+                if (empty - dim >= 0)
+                    swap(empty, empty - dim);
+                else
+                    alert('Miscare nepermisa in sus!');
+            } else if (e.which == 40) { // jos
+                if (empty + dim < dim * dim)
+                    swap(empty, empty + dim);
+                else
+                    alert('Miscare nepermisa in jos!');
+            } else if (e.which == 37) { // stanga
+                if (empty % dim != 0)
+                    swap(empty, empty - 1);
+                else
+                    alert('Miscare nepermisa la stanga!');
+            } else if (e.which == 39) { // dreapta
+                if (empty % dim != dim - 1)
+                    swap(empty, empty + 1);
+                else
+                    alert('Miscare nepermisa la dreapta!');
+            }
+        });
+
+        // functie care amesteca elementele
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // functie care genereaza un array cu numere de la 1 la n
+        function generateNumbers(n) {
+            let array = [];
+            for (let i = 1; i <= n; i++) {
+                array.push(i);
+            }
+            return shuffle(array);
+        }
+
+        // se executa cand pagina s-a incarcat complet
+        $(document).ready(function () {
+            generateTable();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+body, html {
+  height: 100%; /* face ca pagina sa ocupe intreaga inaltime */
+  margin: 0; /* elimina marginile implicite */
+  padding: 0; /* elimina padding-ul implicit */
+  overflow: auto; /* permite derularea paginii daca e necesar */
+}
+
+/* wrapper pentru structura intregii pagini */
+.wrapper {
+  display: flex; /* folosim flexbox pentru layout */
+  flex-direction: column; /* coloana */
+  height: 100%; /* ocupa intreaga inaltime a paginii */
+}
+
+/* header*/
+header {
+  background-color: #F06161; /* red */
+  height: 100px; 
+  line-height: 100px; /* centrata pe verticala */
+  overflow: auto;
+}
+
+/* containerul pentru main */
+.container {
+  display: flex; /*  flexbox pt alinierea elementelor in container */
+  flex: 1; /* face containerul sa ocupe tot spatiul disponibil */
+}
+
+/* navbar */
+nav {
+  background-color: #F5EC99; /* yellow */
+  width: 200px; 
+}
+
+/* lista din navbar */
+nav ul {
+  list-style-type: none; 
+  margin: 0;
+  padding: 0; 
+}
+
+/* elementele navbar */
+nav ul li {
+  display: block; /* fiecare element este afisat pe linie noua */
+  border-bottom: 1px solid; /* bordura sub fiecare element */
+}
+
+/* stil pentru link-uri din navbar */
+nav ul li a {
+  display: block;
+  padding: 10px; 
+  text-decoration: none; 
+  color: black; 
+}
+
+/* hover link-uri */
+nav ul li a:hover {
+  background-color: lightgray; /* schimbam fundalul la hover */
+  color: white; 
+  border-radius: 5px; /* rotunjim colturi la hover */
+  transition: background-color 0.3s, color 0.3s; /* adaugam tranzitie la hover */
+}
+
+/* main */
+.main-content {
+  background-color: #A8D5BA; /* green */
+  flex: 1; /* ocupa tot */
+  padding: 20px; /* padding in jurul continutului */
+  overflow: auto; 
+}
+
+/* footer*/
+footer {
+  background-color: #F7A6B1; /* pink */
+  height: 67px; 
+  line-height: 60px; 
+  overflow: auto; 
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Problema 1 - Plain JS</title>
+</head>
+<body>
+    <h3>Statii de plecare</h3>
+    <ul id="plecari"></ul>
+
+    <h3>Statii de sosire</h3>
+    <ul id="sosiri"></ul>
+
+<script>
+// la incarcarea paginii, se trimite o cerere catre server pentru a obtine lista de orase de plecare
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "plecari.php", true);
+xhr.onload = function() {
+    if (xhr.status === 200) {
+        let orase = JSON.parse(xhr.responseText);
+        let ul = document.getElementById("plecari");
+        ul.innerHTML = "";
+        // se adauga fiecare oras intr-o lista <li> cu eveniment onclick
+        orase.forEach(function(o) {
+            let li = document.createElement("li");
+            li.textContent = o;
+            li.onclick = function() {
+                incarcaSosiri(o);
+            };
+            ul.appendChild(li);
+        });
+    }
+};
+xhr.send();
+
+// aceasta functie cere serverului orasele de sosire pentru un oras de plecare selectat
+function incarcaSosiri(orasPlecare) {
+    let xhr2 = new XMLHttpRequest();
+    xhr2.open("GET", "sosiri.php?oras=" + encodeURIComponent(orasPlecare), true);
+    xhr2.onload = function() {
+        if (xhr2.status === 200) {
+            let sosiri = JSON.parse(xhr2.responseText);
+            let ul = document.getElementById("sosiri");
+            ul.innerHTML = "";
+            // afiseaza orasele de sosire
+            sosiri.forEach(function(dest) {
+                let li = document.createElement("li");
+                li.textContent = dest;
+                ul.appendChild(li);
+            });
+        }
+    };
+    xhr2.send();
+}
+</script>
+</body>
+</html>

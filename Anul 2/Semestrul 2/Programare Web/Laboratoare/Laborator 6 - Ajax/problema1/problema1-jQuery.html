@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Problema 1 - jQuery</title>
+    <!-- incarcam jQuery din CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h3>Statii de plecare</h3>
+    <ul id="plecari"></ul>
+
+    <h3>Statii de sosire</h3>
+    <ul id="sosiri"></ul>
+
+<script>
+$(document).ready(function() {
+    // la incarcare, cerem lista oraselor de plecare de la server
+    $.ajax({
+        url: "plecari.php",
+        method: "GET",
+        dataType: "json",
+        success: function(orase) {
+            let $plecari = $("#plecari");
+            $plecari.empty(); // golim lista
+            // adaugam fiecare oras ca element <li> cu click handler
+            $.each(orase, function(index, oras) {
+                let $li = $("<li>").text(oras);
+                $li.on("click", function() {
+                    incarcaSosiri(oras);
+                });
+                $plecari.append($li);
+            });
+        },
+        error: function() {
+            alert("Eroare la incarcarea oraselor de plecare.");
+        }
+    });
+
+    // functie care cere orasele de sosire pentru o statie de plecare data
+    function incarcaSosiri(orasPlecare) {
+        $.ajax({
+            url: "sosiri.php",
+            method: "GET",
+            data: { oras: orasPlecare },
+            dataType: "json",
+            success: function(sosiri) {
+                let $sosiri = $("#sosiri");
+                $sosiri.empty();
+                $.each(sosiri, function(i, dest) {
+                    let $li = $("<li>").text(dest);
+                    $sosiri.append($li);
+                });
+            },
+            error: function() {
+                alert("Eroare la incarcarea oraselor de sosire.");
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

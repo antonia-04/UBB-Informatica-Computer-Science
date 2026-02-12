@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tree View - Problema 5 (jQuery)</title>
+  <style>
+    ul { list-style-type: none; }
+    li { cursor: pointer; margin-left: 10px; }
+    .folder::before { content: "📁 "; }
+    .file::before { content: "📄 "; }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h2> Tree View - Problema 5</h2>
+  <div id="treeview"></div>
+  <hr />
+  <pre id="fileContent"></pre>
+
+  <script>
+    $(document).ready(function () {
+      const $container = $("#treeview");
+      loadDirectory("", $container);
+
+      function loadDirectory(path, $parent) {
+        $.ajax({
+          url: 'tree.php',
+          data: { path: path },
+          dataType: 'json',
+          success: function (items) {
+            const $ul = $("<ul></ul>");
+            items.forEach(item => {
+              const $li = $("<li></li>").text(item.name).addClass(item.type);
+              $li.on("click", function (e) {
+                e.stopPropagation();
+                if (item.type === "folder") {
+                  if ($li.children("ul").length > 0) {
+                    $li.children("ul").remove(); // toggle off
+                  } else {
+                    loadDirectory(path + "/" + item.name, $li);
+                  }
+                } else {
+                  loadFile(path + "/" + item.name);
+                }
+              });
+              $ul.append($li);
+            });
+            $parent.append($ul);
+          },
+          error: function () {
+            alert("Eroare la încărcarea directorului.");
+          }
+        });
+      }
+
+      function loadFile(path) {
+        $.ajax({
+          url: 'file.php',
+          data: { path: path },
+          dataType: 'text',
+          success: function (data) {
+            $("#fileContent").text(data);
+          },
+          error: function () {
+            alert("Eroare la încărcarea fișierului.");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

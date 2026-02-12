@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <configSections>
+    </configSections>
+    <connectionStrings>
+        <add name="connection"
+             connectionString="Server=VLAD\SQLEXPRESS;DataBase=Fabrica;Integrated Security = true; TrustServerCertificate=true" />
+    </connectionStrings>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+    </startup>
+    <appSettings>
+        <add key="ParentTable" value="FabricaMedicamente" />
+        <add key="ChildTable" value="Medicament" />
+        
+        <add key="ParentColumnsNumber" value="5" />
+        <add key="ChildColumnsNumber" value="5" />
+        
+        <add key="ParentPrimaryKey" value="IDFabrica" />
+        <add key="ChildPrimaryKey" value="IDMedicament" />
+        <add key="ChildForeignKey" value="IDFabrica" />
+        
+        <add key="ParentColumnNames" value="IDFabrica,Nume,Adresa,Telefon,Descriere"/>
+        <add key="ChildColumnNames" value="IDMedicament,Nume,Tip,Pret,IDFabrica"/>
+        
+        <add key="InsertChildParameters" value="@nume,@tip,@pret,@idfabrica"/>
+    </appSettings>
+</configuration>

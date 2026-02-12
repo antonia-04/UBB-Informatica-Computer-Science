@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Problema 4</title>
+</head>
+
+<style>
+    body {
+        background: lavender;
+        font-family: Arial;
+    }
+</style>
+
+<body>
+
+    <!-- primul tabel - 2 coloane de date -->
+    <table id="myTable" style="width: 180px; margin-top: 1em;">
+        <tbody>
+            <!-- prima linie = antetul pentru fructe, sortare pe coloana 0 -->
+            <tr>
+                <th onclick="sortTable(0,this)">Fructe</th>
+                <td>Mere</td>
+                <td>Pere</td>
+            </tr>
+            <!-- a doua linie = antet pentru pret, sortare pe coloana 1 -->
+            <tr>
+                <th onclick="sortTable(1,this)">Pret</th>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            <!-- a treia linie = antet pentru cantitate, sortare pe coloana 2 -->
+            <tr>
+                <th onclick="sortTable(2,this)">Cantitate</th>
+                <td>8</td>
+                <td>6</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- al doilea tabel - 3 coloane de date -->
+    <table id="mySecondTable" style="width: 180px; margin-top: 1em;">
+        <tbody>
+            <!-- prima linie = produse, sortare pe coloana 0 -->
+            <tr>
+                <th onclick="sortTable(0,this)">Produse</th>
+                <td>Radiere</td>
+                <td>Creion</td>
+                <td>Pix</td>
+            </tr>
+            <!-- a doua linie = pret, sortare pe coloana 1 -->
+            <tr>
+                <th onclick="sortTable(1,this)">Pret</th>
+                <td>3</td>
+                <td>4</td>
+                <td>2</td>
+            </tr>
+            <!-- a treia linie = cantitate, sortare pe coloana 2 -->
+            <tr>
+                <th onclick="sortTable(2,this)">Cantitate</th>
+                <td>8</td>
+                <td>6</td>
+                <td>4</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="myThirdTable" style="width: 180px; margin-top: 1em;">
+        <tbody>
+            <tr>
+                <th onclick="sortTable2(0,this)">Fructe</th>
+                <th onclick="sortTable2(1,this)">Pret</th>
+                <th onclick="sortTable2(2,this)">Cantitate</th>
+            </tr>
+            <tr>
+                <td>Mere</td>
+                <td>3</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Pere</td>
+                <td>4</td>
+                <td>6</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+<script>
+    // functie care sorteaza coloanele din tabel
+    function sortTable(n, x) {
+        var table, rows, switching, i, j, x, shouldSwitch, dir, switchcount = 0,
+            copie, idTable;
+        // luam id-ul tabelului pe care s-a dat click
+        idTable = x.parentNode.parentNode.parentNode.id;
+        table = document.getElementById(idTable);
+        switching = true;
+        dir = "asc"; // prima sortare este crescatoare
+
+
+        // repetam pana nu mai e nevoie sa facem schimbari
+        while (switching) {
+
+            switching = false;
+            // luam toate celulele de la rand n!! n-indice de la tabel
+            x = table.rows[n].cells
+            // x = table.rows
+            //parcurgem coloanele
+            for (i = 1; i < (x.length - 1); i++) {
+                shouldSwitch = false;
+                if (dir == "asc") {
+
+                    if (x[i].innerHTML.toLowerCase() > x[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x[i].innerHTML.toLowerCase() < x[i + 1].innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+
+
+            if (shouldSwitch) {
+
+                //interschimbare coloane
+                for (j = 0; j < table.rows.length; j++) {
+                    copie = table.rows[j].cells[i].innerHTML
+                    table.rows[j].cells[i].innerHTML = table.rows[j].cells[i + 1].innerHTML;
+                    table.rows[j].cells[i + 1].innerHTML = copie;
+                }
+
+
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+    function sortTable2(n, x) {
+        var table, rows, switching, i, j, shouldSwitch, dir, switchcount = 0,
+            copie, idTable;
+        idTable = x.parentNode.parentNode.parentNode.id;
+        table = document.getElementById(idTable);
+        switching = true;
+
+        dir = "asc";
+        while (switching) {
+
+            switching = false;
+
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                var xRow = rows[i].getElementsByTagName("td")[n];
+                var yRow = rows[i + 1].getElementsByTagName("td")[n];
+                if (dir == "asc") {
+                    if (xRow.innerHTML.toLowerCase() > yRow.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (xRow.innerHTML.toLowerCase() < yRow.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+
+</script>
+
+</html>

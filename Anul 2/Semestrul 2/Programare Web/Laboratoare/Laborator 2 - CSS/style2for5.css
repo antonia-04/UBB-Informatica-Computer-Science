@@ -1,0 +1,33 @@
+.image-list {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  background-color: lavender;
+  padding-left: 20px; 
+  width: 400px;
+  border: 1px solid black;
+}
+
+.image-list li {
+  display: flex; 
+  align-items: center;
+  margin-bottom: 20px;
+  list-style-type: none;
+}
+
+.image-container {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.image-container img {
+  margin-right: 10px; 
+}
+
+.image-name {
+  margin: 0; 
+  text-align: right;
+  margin-left: auto; 
+}

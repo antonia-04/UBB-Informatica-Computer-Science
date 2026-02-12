@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Paginare Plain JS</title>
+</head>
+<body>
+    <h2>Inregistrari</h2>
+    <table border="1" id="tabel">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Telefon</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    <br>
+    <button id="prev" disabled>Previous</button>
+    <button id="next">Next</button>
+
+<script>
+let currentPage = 1;
+
+function incarcaPagina(page) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'pagination.php?page=' + page, true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+
+            // populam tabelul
+            let tbody = document.getElementById('tbody');
+            tbody.innerHTML = '';
+            response.records.forEach(function(r) {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `<td>${r.Nume}</td><td>${r.Prenume}</td><td>${r.Telefon}</td><td>${r.Email}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            // setam butoanele disabled in functie de raspuns
+            document.getElementById('next').disabled = !response.hasNext;
+            document.getElementById('prev').disabled = !response.hasPrev;
+
+            currentPage = page;
+        }
+    };
+    xhr.send();
+}
+
+// legam butoanele
+document.getElementById('next').addEventListener('click', function() {
+    incarcaPagina(currentPage + 1);
+});
+document.getElementById('prev').addEventListener('click', function() {
+    incarcaPagina(currentPage - 1);
+});
+
+// incarcam prima pagina la start
+incarcaPagina(1);
+</script>
+</body>
+</html>

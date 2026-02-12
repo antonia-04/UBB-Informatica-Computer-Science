@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laborator 2 - CSS - Problema 1</title>
+<style>
+  /* div-ul principal: 400px */
+  .container {
+    border: 2px solid darkblue; 
+    display: flex;
+    width: 400px;
+    
+    align-items: center; 
+  }
+  /* div uri interioare: am constrans dim 200px */
+  .inner-left, .inner-right {
+    width: 200px; 
+    height: auto; 
+    display: flex;
+    justify-content: center; /* centrare orizontala a continutului */
+    align-items: center;     /* centrare verticala a conținutului */
+  }
+
+  /*imagine in dreapta*/
+  .inner-right img {
+    max-width: 100%; 
+    max-height: 100%; 
+  }
+
+  .center-text {
+    text-align: center; 
+  }
+
+</style>
+</head>
+<body>
+  <!-- 2 div uri: 1 cu text, 1 cu imagine -->
+  <div class="container">
+    <div class="inner-left">
+      <div class="center-text">
+        <p>Every day is a new chance!</p>
+        <p>Fiecare zi e o nouă șansă!</p>
+        <p>Chaque jour est une nouvelle chance !</p>
+        <p>¡Cada día es una nueva oportunidad!</p>
+                <p>Every day is a new chance!</p>
+        <p>Fiecare zi e o nouă șansă!</p>
+        <p>Chaque jour est une nouvelle chance !</p>
+        <p>¡Cada día es una nueva oportunidad!</p>
+      </div>
+    </div>
+    <div class="inner-right">
+        <!-- <img src="imageP1-150px.png" alt="Every day is a new chance" /> -->
+        <!-- imaginea de > 200px se redimensioneaza automat -->
+        <!-- <img src="imageP1-300px.png" alt="Every day is a new chance" /> -->
+        <img src="imageP1-300px.png" alt="Every day is a new chance" />
+    </div>
+  </div>
+</body>

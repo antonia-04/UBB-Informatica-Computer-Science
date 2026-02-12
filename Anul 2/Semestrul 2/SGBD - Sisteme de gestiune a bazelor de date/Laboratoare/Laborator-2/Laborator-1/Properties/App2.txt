@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+    <configSections>
+    </configSections>
+    <connectionStrings>
+        <add name="connection"
+             connectionString="Server=VLAD\SQLEXPRESS;DataBase=Fabrica;Integrated Security = true; TrustServerCertificate=true" />
+    </connectionStrings>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+    </startup>
+    <appSettings>
+        <add key="ParentTable" value="Client" />
+        <add key="ChildTable" value="Recenzie" />
+        
+        <add key="ParentColumnsNumber" value="5" />
+        <add key="ChildColumnsNumber" value="4" />
+        
+        <add key="ParentPrimaryKey" value="IDClient" />
+        <add key="ChildPrimaryKey" value="IDRecenzie" />
+        <add key="ChildForeignKey" value="IDClient" />
+        
+        <add key="ParentColumnNames" value="IDClient,Nume,Varsta,Gen,Judet"/>
+        <add key="ChildColumnNames" value="IDRecenzie,Rating,Descriere,IDClient"/>
+        
+        <add key="InsertChildParameters" value="@rating,@descriere,@IDClient"/>
+    </appSettings>
+</configuration>

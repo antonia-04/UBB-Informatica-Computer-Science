@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Paginare jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Inregistrari</h2>
+    <table border="1" id="tabel">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Telefon</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    <br>
+    <button id="prev" disabled>Previous</button>
+    <button id="next">Next</button>
+
+<script>
+$(document).ready(function(){
+    let currentPage = 1;
+
+    function incarcaPagina(page) {
+        $.ajax({
+            url: 'pagination.php',
+            method: 'GET',
+            data: {page: page},
+            dataType: 'json',
+            success: function(response) {
+                let tbody = $('#tbody');
+                tbody.empty();
+                $.each(response.records, function(i, r) {
+                    tbody.append(`<tr><td>${r.Nume}</td><td>${r.Prenume}</td><td>${r.Telefon}</td><td>${r.Email}</td></tr>`);
+                });
+
+                $('#next').prop('disabled', !response.hasNext);
+                $('#prev').prop('disabled', !response.hasPrev);
+
+                currentPage = page;
+            },
+            error: function() {
+                alert('Eroare la incarcarea datelor');
+            }
+        });
+    }
+
+    $('#next').click(function() {
+        incarcaPagina(currentPage + 1);
+    });
+
+    $('#prev').click(function() {
+        incarcaPagina(currentPage - 1);
+    });
+
+    incarcaPagina(1);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Problema 3 - imagini</title>
+
+    <style>
+        /* containerul tablei de joc */
+        div#board {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 10px;
+            padding: 24px;
+            background: #8ea2bc;
+            justify-content: center;
+        }
+
+        /* fiecare patratel */
+        div#board > div {
+            border: 1px solid #262434;
+            width: 60px;
+            height: 80px;
+            cursor: pointer;
+            background-color: #47596b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* imaginea din patratel */
+        div#board > div > img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+    </style>
+
+    <script>
+        var valori = [];       // valorile celor 2 patrate selectate
+        var tile_ids = [];     // id-urile celor 2 patrate
+        var flipped = 0;       // cate imagini au fost ghicite
+
+        // vectorul cu imaginile (fiecare apare de 2 ori)
+        var variabile = [
+            'ginny.jpg', 'ginny.jpg',
+            'dumbledore.jpeg', 'dumbledore.jpeg',
+            'ron.jpeg', 'ron.jpeg',
+            'hermione.jpeg', 'hermione.jpeg',
+            'harry.jpeg', 'harry.jpeg',
+            'newt.jpeg', 'newt.jpeg'
+        ];
+
+        // amesteca vectorul de imagini
+        Array.prototype.tile_shuffle = function () {
+            var i = this.length, j, temp;
+            while (--i > 0) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = this[j];
+                this[j] = this[i];
+                this[i] = temp;
+            }
+        }
+
+        // functie apelata cand dam click pe o casuta
+        function FlipTile(tile, val) {
+            if (tile.innerHTML == "" && valori.length < 2) {
+                tile.style.background = '#305373'; // culoare cand se intoarce
+                tile.innerHTML = '<img src="' + val + '">';
+
+                if (valori.length == 0) {
+                    // primul click
+                    valori.push(val);
+                    tile_ids.push(tile.id);
+
+                } else if (valori.length == 1) {
+                    // al doilea click
+                    valori.push(val);
+                    tile_ids.push(tile.id);
+
+                    if (valori[0] == valori[1]) {
+                        // pereche corecta
+                        flipped += 2;
+                        valori = [];
+                        tile_ids = [];
+
+                        // joc terminat
+                        if (flipped == variabile.length) {
+                            alert("Felicitari! Jocul s-a sfarsit!");
+                            document.getElementById('board').innerHTML = "";
+                            newPatrat(); // incepe joc nou
+                        }
+                    } else {
+                        // nu e pereche - intoarcem inapoi
+                        function reIntoarcere() {
+                            var tile_1 = document.getElementById(tile_ids[0]);
+                            var tile_2 = document.getElementById(tile_ids[1]);
+                            tile_1.style.background = '#5c6b7d';
+                            tile_1.innerHTML = "";
+                            tile_2.style.background = '#5c6b7d';
+                            tile_2.innerHTML = "";
+                            valori = [];
+                            tile_ids = [];
+                        }
+                        setTimeout(reIntoarcere, 700); // asteapta 0.7 sec
+                    }
+                }
+            }
+        }
+
+        // genereaza tabla de joc
+        function newPatrat() {
+            flipped = 0;
+            var output = '';
+            variabile.tile_shuffle(); // amesteca imaginile
+
+            for (var i = 0; i < variabile.length; i++) {
+                output += '<div id="tile_' + i + '" onclick="FlipTile(this,\'' + variabile[i] + '\')"></div>';
+            }
+
+            document.getElementById('board').innerHTML = output;
+        }
+    </script>
+</head>
+
+<body style="font-family: sans-serif; background-color: #8ea2bc;">
+
+    <h2 style="color: darkblue;">
+        Memory Game - găsește perechile de personaje ascunse din universul Harry Potter!
+    </h2>
+
+    <div id="board"></div>
+    <script> newPatrat(); </script>
+
+</body>
+
+</html>

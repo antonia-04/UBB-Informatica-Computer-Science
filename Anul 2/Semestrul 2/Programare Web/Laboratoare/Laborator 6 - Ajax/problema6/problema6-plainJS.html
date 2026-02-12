@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Filtrare Produse IT - JavaScript AJAX</title>
+  <style>
+    label { display: block; margin-top: 10px; }
+    select { width: 200px; }
+    #results { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Filtrare Notebookuri (JavaScript AJAX)</h2>
+
+  <form id="filterForm">
+    <label>
+      Producător:
+      <select name="producator" id="producator">
+        <option value="">--Toate--</option>
+        <option value="Dell">Dell</option>
+        <option value="HP">HP</option>
+        <option value="Lenovo">Lenovo</option>
+      </select>
+    </label>
+
+    <label>
+      Procesor:
+      <select name="procesor" id="procesor">
+        <option value="">--Toate--</option>
+        <option value="Intel i5">Intel i5</option>
+        <option value="Intel i7">Intel i7</option>
+        <option value="AMD Ryzen 5">AMD Ryzen 5</option>
+      </select>
+    </label>
+
+    <label>
+      Memorie RAM:
+      <select name="memorie" id="memorie">
+        <option value="">--Toate--</option>
+        <option value="8GB">8GB</option>
+        <option value="16GB">16GB</option>
+        <option value="32GB">32GB</option>
+      </select>
+    </label>
+
+    <label>
+      Capacitate HDD:
+      <select name="hdd" id="hdd">
+        <option value="">--Toate--</option>
+        <option value="256GB">256GB</option>
+        <option value="512GB">512GB</option>
+        <option value="1TB">1TB</option>
+      </select>
+    </label>
+
+    <label>
+      Placă video:
+      <select name="placa_video" id="placa_video">
+        <option value="">--Toate--</option>
+        <option value="NVIDIA GTX 1650">NVIDIA GTX 1650</option>
+        <option value="NVIDIA RTX 3060">NVIDIA RTX 3060</option>
+        <option value="Intel UHD">Intel UHD</option>
+      </select>
+    </label>
+
+    <br />
+    <button type="button" id="filterBtn">Filtrează</button>
+  </form>
+
+  <div id="results">
+    <h3>Rezultate:</h3>
+    <ul id="productList"></ul>
+  </div>
+
+  <script>
+    function afiseazaProduse(produse) {
+      const ul = document.getElementById("productList");
+      ul.innerHTML = "";
+      if (produse.length === 0) {
+        ul.innerHTML = "<li>Nu există produse care să corespundă filtrului.</li>";
+        return;
+      }
+      produse.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = `${p.producator} - ${p.procesor} - ${p.memorie} - ${p.hdd} - ${p.placa_video}`;
+        ul.appendChild(li);
+      });
+    }
+
+    function colecteazaFiltre() {
+      const form = document.getElementById("filterForm");
+      return {
+        producator: form.producator.value,
+        procesor: form.procesor.value,
+        memorie: form.memorie.value,
+        hdd: form.hdd.value,
+        placa_video: form.placa_video.value,
+      };
+    }
+
+    document.getElementById("filterBtn").addEventListener("click", () => {
+      const filtre = colecteazaFiltre();
+      const params = new URLSearchParams(filtre).toString();
+      fetch(`filter.php?${params}`)
+        .then(response => response.json())
+        .then(data => {
+          afiseazaProduse(data);
+        })
+        .catch(err => {
+          alert("Eroare la încărcarea datelor.");
+          console.error(err);
+        });
+    });
+  </script>
+</body>
+</html>

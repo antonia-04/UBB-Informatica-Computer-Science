@@ -1,0 +1,18 @@
+A. 13 Grile 2,6p
+* stările tranzacțiilor
+* proprietăți ale tranzactiilor care s-ar putea sa nu fie îndeplinite când rulează tranzacții în paralel
+* Ce înseamnă unrepeatable reads
+* Scopul optimizării queriurilor
+* Chestii cu GRANT INSERT / REVOKE
+* fragmentarea orizontală primara (wtf?)
+* care tip de join e nespecific bazelor de date distribuite
+* obiective ale securității
+* min heap = ?
+* Care este numărul optimi de indecși în tabel
+* ceva cu recuperarea datelor
+* ceva cu planificare tranzacțiilor
+* bd distribuite: de ce la ce vine E-ul din BASE
+B. Planificarea a 2 tranzacții, dacă e sau nu conflict-serializabilă. Și varianta ei serială(2p)
+C. Algebra relațională cu fucking / (2p)
+D. Un Select cu vreo 5 joinuri (2p)
+E. Când e nevoie de un index? (0.4 p)

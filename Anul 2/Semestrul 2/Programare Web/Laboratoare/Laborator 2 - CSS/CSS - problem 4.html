@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laborator 2 - CSS - Problema 4</title>
+    <style>
+    /* lista de navigare */
+    #navlist {
+      /*position: relative; /* vertical - permite pozitionarea elementelor in interiorul listei */
+      display: flex; /* orizontal - folosim flexbox */
+
+    }
+
+    /* stiluri pentru fiecare element al listei */
+    #navlist li {
+      margin: 0; /* elimina marginile implicite */
+      padding: 0; /* elimina padding-ul implicit */
+      /* position: absolute; /* pozitioneaza fiecare element relativ la parintele sau */
+      left: 0; /* aliniaza elementele pe axa orizontala */
+      display: inline-block; /* face fiecare item sa fie pe orizontala */
+
+    }
+
+    /* stiluri fiecare element de lista si link */
+    #navlist li, #navlist a {
+      width: 84px; /* latimea fiecarui link */
+      height: 79px; /* inaltimea fiecarui link */
+      display: block; /* face link-ul sa ocupe intreaga dimensiune a elementului */
+    }
+
+    #item1 {
+      top: 0; /* pozitioneaza primul item la inceputul listei */
+      background: url('poza.png') 0 -85px; /* background-ul pentru iconita disabled */
+    }
+
+    #item2 {
+      top: 84px; /* pozitioneaza al doilea item */
+      background: url('poza.png') -84px -85px;
+    }
+
+    #item3 {
+      top: 168px; /* pozitioneaza al treilea item */
+      background: url('poza.png') -168px -85px; 
+    }
+
+    #item4 {
+      top: 252px; /* pozitioneaza al patrulea item */
+      background: url('poza.png') -252px -85px; 
+    }
+
+    #item5 {
+      top: 336px; /* pozitioneaza al cincilea item */
+      background: url('poza.png') -336px -85px; 
+    }
+
+    #item6 {
+      top: 420px; /* pozitioneaza al saselea item */
+      background: url('poza.png') -420px -85px; 
+    }
+
+    #item7 {
+      top: 504px; /* pozitioneaza al saptelea item */
+      background: url('poza.png') -504px -85px; 
+    }
+
+    #item8 {
+      top: 588px; /* pozitioneaza al optulea item */
+      background: url('poza.png') -588px -85px;
+    }
+
+    #item9 {
+      top: 672px; /* pozitioneaza al noualea item */
+      background: url('poza.png') -672px -85px; 
+    }
+
+    #item10 {
+      top: 756px; /* pozitioneaza al zecelea item */
+      background: url('poza.png') -756px -85px; 
+    }
+
+    #item11 {
+      top: 840px; /* pozitioneaza al unsprezecelea item */
+      background: url('poza.png') -840px -85px; 
+    }
+
+    /* stiluri pt hover*/
+    #item1 a:hover {
+      background: url('poza.png') 0 0; /* background-ul pentru iconita activata */
+    }
+
+    #item2 a:hover {
+      background: url('poza.png') -84px 0; 
+    }
+
+    #item3 a:hover {
+      background: url('poza.png') -168px 0;
+    }
+
+    #item4 a:hover {
+      background: url('poza.png') -252px 0; 
+    }
+
+    #item5 a:hover {
+      background: url('poza.png') -336px 0; 
+    }
+
+    #item6 a:hover {
+      background: url('poza.png') -420px 0; 
+    }
+
+    #item7 a:hover {
+      background: url('poza.png') -504px 0;
+    }
+
+    #item8 a:hover {
+      background: url('poza.png') -588px 0; 
+    }
+
+    #item9 a:hover {
+      background: url('poza.png') -672px 0; 
+    }
+
+    #item10 a:hover {
+      background: url('poza.png') -756px 0; 
+    }
+
+    #item11 a:hover {
+      background: url('poza.png') -840px 0; 
+    }
+
+    </style>
+</head>
+<body>
+    <!-- lista de itemi cu iconite -->
+    <ul id="navlist">
+      <li id="item1"><a href="#"></a></li>
+      <li id="item2"><a href="#"></a></li>
+      <li id="item3"><a href="#"></a></li>
+      <li id="item4"><a href="#"></a></li>
+      <li id="item5"><a href="#"></a></li>
+      <li id="item6"><a href="#"></a></li>
+      <li id="item7"><a href="#"></a></li>
+      <li id="item8"><a href="#"></a></li>
+      <li id="item9"><a href="#"></a></li>
+      <li id="item10"><a href="#"></a></li>
+      <li id="item11"><a href="#"></a></li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tree View - Problema 5 </title>
+  <style>
+    ul { list-style-type: none; }
+    li { cursor: pointer; margin-left: 10px; }
+    .folder::before { content: "📁 "; }
+    .file::before { content: "📄 "; }
+  </style>
+</head>
+<body>
+  <h2> Tree View - Problema 5</h2>
+  <div id="treeview"></div>
+  <hr>
+  <pre id="fileContent"></pre>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("treeview");
+      loadDirectory("", container);
+
+      function loadDirectory(path, parent) {
+        fetch(`tree.php?path=${encodeURIComponent(path)}`)
+          .then(response => response.json())
+          .then(items => {
+            const ul = document.createElement("ul");
+            items.forEach(item => {
+              const li = document.createElement("li");
+              li.textContent = item.name;
+              li.className = item.type;
+              li.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (item.type === "folder") {
+                  if (li.querySelector("ul")) {
+                    li.removeChild(li.querySelector("ul")); // toggle
+                  } else {
+                    loadDirectory(path + "/" + item.name, li);
+                  }
+                } else {
+                  loadFile(path + "/" + item.name);
+                }
+              });
+              ul.appendChild(li);
+            });
+            parent.appendChild(ul);
+          });
+      }
+
+      function loadFile(path) {
+        fetch(`file.php?path=${encodeURIComponent(path)}`)
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById("fileContent").textContent = data;
+          });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+SEMINAR 5 SGBD:
+
+Baza de date utilizata: BookStore
+
+1. Identificați operațiile care alcătuiesc workload-ul aplicației
+
+a) operatii de SELECT:
+- cea mai importanta functionalitate este afisarea tuturor cartilor care se face prin interogari cu JOIN deoarece informatiile despre author, provider, publisher sunt in alte tabele
+- se efectueaza cautari dupa atribute
+- pentru logare se efectueaza select pentru a gasi contul si clientul
+
+b) operatii de INSERT:
+- adaugare de carti si in cazul in care nu exista autorul, editura sau provider-ul se adauga si in acele tabele
+- adaugare client
+- se adauga recenzii 
+
+c) operatii de UPDATE:
+- pentru comenzi se modifica frecvent statusul (CONFIRMED, PAID, DELIVERED)
+
+2. Identificați care este procentul de operații de citire, respectiv operații de scriere din workload-ul aplicației
+
+Operatiile de citire sunt mai frecvente decat cele de scriere.
+~60% citire & ~40% scriere
+
+3. În cazul operațiilor de scriere, identificați care este procentul de operații de adăugare, de actualizare și de ștergere (separat pentru fiecare tip de operație de scriere)
+
+Cel mai frecvente sunt operatiile de adaugare, apoi cele de actualizare (status comanda) iar cele de stergere nu se intampla.
+
+4. Identificați care sunt cele mai frecvente operații executate din fiecare categorie:
+adăugare, actualizare, ștergere și citire (interogări)
+
+CITIRE:
+- logare ( SELECT email, password FROM ACCOUNT)
+- afisare date carti: SELECT multiplu pe BOOK, AUTHOR, PROVIDER, PUBLISHER
+- afisare istoric comenzi: SELECT multiplu pe BOOK, ORDER, ORDERB, CLIENT
+- afisare review pentru carte
+- afisare carti pe categorii
+
+ADAUGARE:
+- sign up
+- adaugare comanda
+- adaugare carte in stoc si uneori detaliile aferente din alte tabele
+- adaugare review de catre client 
+
+ACTUALIZARE: 
+- actualizare status comanda
+- rareori atribute dintr-o inregistrare
+
+STERGERE:
+- nu prea stergem :)
+
+5. Pe baza tuturor tehnicilor de optimizare învățate până în prezent, găsiți soluții de optimizare a celor mai frecvente operații din workload-ul aplicației
+
+OPTIMIZARE CAUTARI:
+- indecși pe coloane multiple 
+- selectam doar coloanele relevante pentru afisare
+- indexed view pt books
+- proceduri stocate pentru performanta pentru operatiile frecvente
+
+OPTIMIZARE SCRIERE:
+- nu prea multi indecși pentru a nu îngreuna inserările
+- proceduri stocate pentru performanta pentru operatiile frecvente
+- tranzactii
+
+OPTIMIZARE STERGERE:
+- DELETE ON CASCADE  

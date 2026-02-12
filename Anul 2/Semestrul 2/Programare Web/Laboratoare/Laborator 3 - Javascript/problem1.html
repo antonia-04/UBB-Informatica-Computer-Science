@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problema 1</title>
+</head>
+<body>
+  <style>
+      body {
+        background-color: lavender; 
+      }
+  </style>
+  <h2>Problema 1</h2>
+  <h4>Modificati listele prin dublu-click astfel incat sa se formeze doua grupuri de orase.</h4>
+
+  <!-- prima lista -->
+  <select id="list1" ondblclick="moveItem('list1', 'list2')">
+    <option value="1">Bucuresti</option>
+    <option value="2">Cluj-Napoca</option>
+    <option value="3">Timisoara</option>
+    <option value="4">Iasi</option>
+    <option value="5">Brasov</option>
+    <option value="6">Constanta</option>
+    <option value="7">Sibiu</option>
+    <option value="8">Oradea</option>
+    <option value="9">Craiova</option>
+    <option value="10">Arad</option>
+  </select>
+
+  <!-- a doua lista -->
+  <select id="list2" ondblclick="moveItem('list2', 'list1')">
+  </select>
+
+  <script>
+  function moveItem(sourceId, targetId) {
+    // luam lista sursa si lista tinta
+    var sourceSelect = document.getElementById(sourceId);
+    var targetSelect = document.getElementById(targetId);
+    
+    // luam optiunea selectata din lista sursa
+    var selectedOption = sourceSelect.options[sourceSelect.selectedIndex];
+    if (!selectedOption) return;
+    
+    // verificam daca optiunea exista deja in lista tinta
+    var alreadyExists = Array.from(targetSelect.options).some(option => option.value === selectedOption.value);
+    if (alreadyExists) return;
+    
+    // adaugam optiunea in lista tinta
+    targetSelect.appendChild(selectedOption.cloneNode(true));
+    
+    // stergem optiunea din lista sursa
+    sourceSelect.removeChild(selectedOption);
+  }
+  </script>
+
+</body>
+</html>

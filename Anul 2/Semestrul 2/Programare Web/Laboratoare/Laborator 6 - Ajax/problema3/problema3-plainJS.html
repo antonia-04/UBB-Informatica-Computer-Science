@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editare carti</title>
+</head>
+<body>
+    <h2>Carti disponibile</h2>
+    <select id="bookList"></select>
+
+    <h3>Detalii carte</h3>
+    <form id="bookForm">
+        Titlu: <input type="text" id="title"><br><br>
+        Autor: <input type="text" id="author"><br><br>
+        ISBN: <input type="text" id="isbn"><br><br>
+        <button type="button" id="saveBtn" disabled>Save</button>
+    </form>
+
+    <script>
+        let modified = false;
+        let currentId = null;
+
+        function loadIds() {
+            fetch('get_ids.php')
+                .then(r => r.json())
+                .then(data => {
+                    let select = document.getElementById('bookList');
+                    data.forEach(id => {
+                        let option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = "Carte ID " + id;
+                        select.appendChild(option);
+                    });
+                    if (data.length > 0) {
+                        select.value = data[0];
+                        loadBook(data[0]);
+                    }
+                });
+        }
+
+        function loadBook(id) {
+            if (modified) {
+                if (!confirm("Ai modificat formularul. Doresti sa salvezi modificarile inainte?")) {
+                    modified = false;
+                } else {
+                    saveBook();
+                    return;
+                }
+            }
+
+            fetch('get_book.php?id=' + id)
+                .then(r => r.json())
+                .then(book => {
+                    document.getElementById('title').value = book.title;
+                    document.getElementById('author').value = book.author;
+                    document.getElementById('isbn').value = book.isbn;
+                    currentId = id;
+                    modified = false;
+                    document.getElementById('saveBtn').disabled = true;
+                });
+        }
+
+        function saveBook() {
+            fetch('save_book.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `id=${currentId}&title=${encodeURIComponent(document.getElementById('title').value)}&author=${encodeURIComponent(document.getElementById('author').value)}&isbn=${encodeURIComponent(document.getElementById('isbn').value)}`
+            }).then(r => r.text()).then(t => {
+                alert(t);
+                modified = false;
+                document.getElementById('saveBtn').disabled = true;
+            });
+        }
+
+        document.getElementById('bookList').addEventListener('change', function () {
+            loadBook(this.value);
+        });
+
+        ['title', 'author', 'isbn'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function () {
+                modified = true;
+                document.getElementById('saveBtn').disabled = false;
+            });
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', saveBook);
+
+        window.onload = loadIds;
+    </script>
+</body>
+</html>

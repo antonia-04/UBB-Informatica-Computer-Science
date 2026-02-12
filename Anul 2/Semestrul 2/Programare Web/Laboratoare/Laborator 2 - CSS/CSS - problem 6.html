@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <title>Laborator 2 - CSS - Problema 6</title>
+      <style>
+        .boxy-input {
+          font-family: monospace;           /* caractere egale ca latime */
+          font-size: 25px;
+          border: none;
+          outline: none;
+          padding: 10px 0 10px 10px;        /* adjust padding to left only */
+          background-image: repeating-linear-gradient(
+            to right,
+            black 0,
+            black 1px,
+            white 1px,
+            white 26px
+          );
+          background-size: 26px 30px;
+          width: calc(26px * 20);           /* 20 patratele */
+          height: 30px;
+          box-sizing: border-box;
+          letter-spacing: 13px;             /* match the box width */
+          text-indent: 0px;               /* slight adjustment to center */
+          border: 1px solid black; 
+        }
+
+        label {
+          display: block;
+          margin: 20px 0 5px;
+          font-family: sans-serif;
+          font-size: 18px;
+        }
+      </style>
+</head>
+<body>
+  <label for="nume">Nume</label>
+  <input type="text" id="nume" class="boxy-input" maxlength="20">
+
+  <label for="prenume">Prenume</label>
+  <input type="text" id="prenume" class="boxy-input" maxlength="20">
+
+  <label for="cnp">CNP</label>
+  <input type="text" id="cnp" class="boxy-input" maxlength="13" style="width: calc(26px * 13);">
+</body>
+</html>

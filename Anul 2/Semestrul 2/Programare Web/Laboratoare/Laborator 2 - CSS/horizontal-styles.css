@@ -1,0 +1,79 @@
+
+body, html {
+  height: 100%; /* face ca pagina sa ocupe intreaga inaltime */
+  margin: 0; /* elimina marginile implicite */
+  padding: 0; /* elimina padding-ul implicit */
+  overflow: auto; 
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+/* header*/
+header {
+  background-color: #F06161; /* red */
+  height: 100px; 
+  line-height: 100px; /* centrata pe verticala */
+  overflow: auto;
+}
+
+/* containerul pentru main */
+.container {
+  flex: 1; /* face containerul sa ocupe tot spatiul disponibil */
+}
+
+/* navbar */
+nav {
+  background-color: #F5EC99; /* yellow */
+  height: 18px; 
+  width: 100%; 
+}
+
+/* lista din navbar */
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex; 
+  justify-content: center; 
+}
+
+/* stil pentru link-uri din navbar */
+nav ul li {
+  flex-grow: 1;
+  display: inline-block; 
+  margin-right: 10px; 
+  border-left: 1px solid;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+nav ul li a:hover {
+  background-color: lightgray;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* main */
+.main-content {
+  background-color: #A8D5BA; /* green */
+  min-height: calc(100% - 57px);  /* asigura ca main-ul ocupa tot spatiul disponibil tinand cont de header si footer */
+  padding: 20px; /* padding in jurul continutului */
+  overflow: auto; 
+}
+
+/* footer*/
+footer {
+  background-color: #F7A6B1; /* pink */
+  height: 67px; 
+  line-height: 60px; 
+  overflow: auto; 
+}

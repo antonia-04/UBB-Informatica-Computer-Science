@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problema 2</title>
+  <style>
+    /* stil pt eroare */
+    .error {
+      border: 3px solid red;
+    }
+    body {
+      background-color: lavender; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- formular principal -->
+  <form id="myForm">
+    <label for="name">Nume:</label>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="birthdate">Data Nasterii:</label>
+    <input type="text" id="birthdate" name="birthdate" required><br><br>
+
+    <label for="age">Varsta:</label>
+    <input type="number" id="age" name="age" required><br><br>
+
+    <label for="email">Adresa de e-mail:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="button" onclick="validateForm()">Trimite</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      // luam referinta catre formular si valorile introduse
+      var form = document.getElementById('myForm');
+      var name = form.elements['name'].value.trim();
+      var birthdate = form.elements['birthdate'].value;
+      var age = form.elements['age'].value;
+      var email = form.elements['email'].value.trim();
+      var errors = [];
+
+      // validare nume
+      if (name === '') {
+        errors.push('nume');
+        form.elements['name'].classList.add('error');
+      } 
+      else {
+        form.elements['name'].classList.remove('error');
+      }
+
+      // validare data nasterii -> regex
+      var dateRegex = /^\d{2}-\d{2}-\d{4}$/; // format yyyy-mm-dd
+      if (!dateRegex.test(birthdate)) {
+        errors.push('data nasterii (trebuie sa fie in formatul dd-mm-yyyy)');
+        form.elements['birthdate'].classList.add('error');
+      } 
+      else {
+        var selectedDate = new Date(birthdate);
+        var today = new Date();
+        if (selectedDate >= today) {
+          errors.push('data nasterii (trebuie sa fie in trecut)');
+          form.elements['birthdate'].classList.add('error');
+        } 
+        else {
+          form.elements['birthdate'].classList.remove('error');
+        }
+      }
+
+      // validare varsta
+      if (isNaN(age) || age <= 0) {
+        errors.push('varsta (trebuie sa fie un numar pozitiv)');
+        form.elements['age'].classList.add('error');
+      } 
+      else {
+        form.elements['age'].classList.remove('error');
+      }
+
+      // validare email -> regex
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errors.push('adresa de e-mail nu este valida');
+        form.elements['email'].classList.add('error');
+      } 
+      else {
+        form.elements['email'].classList.remove('error');
+      }
+
+      // afisam mesaj de eroare sau succes
+      if (errors.length > 0) {
+        var errorMessage = 'Aveti erori! Campurile ';
+        for (var i = 0; i < errors.length; i++) {
+
+          errorMessage += errors[i];
+          if (i < errors.length - 1) {
+            errorMessage += ', ';
+          }
+        }
+        errorMessage += ' nu sunt completate corect.';
+        alert(errorMessage);
+      } else {
+        alert('Succes! Datele sunt completate corect!');
+      }
+    }
+  </script>
+
+</body>
+</html>

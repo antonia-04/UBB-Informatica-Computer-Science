@@ -1,0 +1,118 @@
+﻿USE BookStore
+GO
+
+-- CERINTA 1
+
+-- DIRTYREADS - Problema
+-- citim o val modificata dar nu commited
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+BEGIN TRAN
+SELECT * FROM Book WHERE ISBN = 1
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book WHERE ISBN = 1
+COMMIT TRAN
+
+
+-- DIRTYREADS - Rezolvare
+-- citim doar datele confirmate cu READ COMMITTED
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+BEGIN TRAN
+SELECT * FROM Book WHERE ISBN = 1
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book WHERE ISBN = 1
+COMMIT TRAN
+
+ 
+-- NON-REPEATABLE READS -  Problema
+-- facem 2 SELECT-uri si vedem date diferite intre ele
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+BEGIN TRAN
+SELECT * FROM Book WHERE ISBN = 201
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book WHERE ISBN = 201
+COMMIT TRAN
+
+
+-- NON-REPEATABLE READS -  Rezolvare
+-- Cu REPEATABLE READ -> blocam modif pana tranzactia se termina
+
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN
+SELECT * FROM Book WHERE ISBN = 201
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book WHERE ISBN = 201
+COMMIT TRAN
+
+
+-- PHANTOM READS - Problema
+-- facem SELECT, apoi dupa un delay apare un rand nou
+-- al doilea SELECT returneaza si randul nou
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN
+SELECT * FROM Book
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book
+COMMIT TRAN
+
+
+-- PHANTOM READS - Rezolvare
+-- cu SERIALIZABLE nu apar randuri noi intre cele 2 SELECT-uri
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+BEGIN TRAN
+SELECT * FROM Book
+WAITFOR DELAY '00:00:15'
+SELECT * FROM Book
+COMMIT TRAN
+
+
+
+-- DEADLOCK - Problema
+-- T2 acceseaza tabelele in ordine inversa fata de T1 => deadlock
+SELECT * FROM Category
+
+BEGIN TRAN
+UPDATE Category SET label = 'Updated T2' WHERE idCategory = 1
+WAITFOR DELAY '00:00:10'
+UPDATE Book SET price = price + 2 WHERE ISBN = 1
+COMMIT TRAN
+
+
+-- DEADLOCK - Rezolvare
+-- le facem in aceeasi ordine
+SET DEADLOCK_PRIORITY HIGH
+BEGIN TRAN
+UPDATE Book SET price = price + 2 WHERE ISBN = 1
+WAITFOR DELAY '00:00:10'
+UPDATE Category SET label = 'Updated T2' WHERE idCategory = 1
+COMMIT TRAN
+
+
+-- CERINTA 2
+
+CREATE OR ALTER PROCEDURE DeadLock2 AS
+BEGIN
+    SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+
+    BEGIN TRY
+        BEGIN TRAN
+
+        -- primul lock pe Category
+        UPDATE Category SET label = 'Updated by DeadLock2' WHERE idCategory = 1
+
+        -- delay
+        WAITFOR DELAY '00:00:10'
+
+        -- al doilea lock pe Book
+        UPDATE Book SET price = price + 2 WHERE ISBN = 1
+
+        COMMIT TRAN
+        SELECT 'DeadLock2 OK' AS MSG
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRAN
+        SELECT ERROR_MESSAGE() AS MSG
+    END CATCH
+END
+GO
+

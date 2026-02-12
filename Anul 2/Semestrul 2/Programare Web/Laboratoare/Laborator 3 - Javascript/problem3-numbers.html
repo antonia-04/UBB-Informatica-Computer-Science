@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* tabla de joc */
+        div#board {
+            display: grid;
+            grid-template-columns: repeat(4, 80px); /* 4 pe rând */
+            grid-template-rows: repeat(3, 80px);    /* 3 rânduri */
+            gap: 10px;
+            padding: 24px;
+            background-color: lavender;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+        /* stil patratel */
+        div#board > div {
+            border: 1px solid #6a0dad; 
+            width: 40px;
+            height: 40px;
+            float: left;
+            margin: 5px;
+            padding: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            text-align: center;
+            background-color: #ffe6ff; 
+            color: #6a0dad; /* text */
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+    </style>
+    <script>
+        // variabile globale
+        var valori = [];         // retine valorile intoarse
+        var tile_ids = [];       // retine id-urile patratelelor intoarse
+        var flipped = 0;         // numar de patratele ghicite
+        var variabile = ['1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6']; // valori pereche
+
+        // functie pentru amestecarea valorilor din array (Fisher-Yates shuffle)
+        Array.prototype.tile_shuffle = function() {
+            var i = this.length, j, temp;
+            while (--i > 0) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = this[j];
+                this[j] = this[i];
+                this[i] = temp;
+            }
+        }
+
+        // functie care se apeleaza cand un patratel este apasat
+        function FlipTile(tile, val) {
+            // verifica daca patratelul e gol si nu sunt deja 2 intoarse
+            if (tile.innerHTML == "" && valori.length < 2) {
+                tile.style.background = '#e0bbff'; // culoare pt patratel selectat
+                tile.innerHTML = val;              // afiseaza valoarea in patratel
+
+                if (valori.length == 0) {
+                    // prima intoarcere
+                    valori.push(val);
+                    tile_ids.push(tile.id);
+                } else if (valori.length == 1) {
+                    // a doua intoarcere
+                    valori.push(val);
+                    tile_ids.push(tile.id);
+
+                    // verifica daca cele doua sunt egale
+                    if (valori[0] == valori[1]) {
+                        flipped += 2; // creste numarul de patratele potrivite
+                        valori = [];
+                        tile_ids = [];
+
+                        // jocul s-a terminat cand toate sunt potrivite
+                        if (flipped == variabile.length) {
+                            alert("Felicitari! Jocul s-a sfarsit!");
+                            document.getElementById('board').innerHTML = ""; // curata tabla
+                            newPatrat(); // incepe un joc nou
+                        }
+                    } else {
+                        // daca NU sunt pereche, le intoarce inapoi dupa un delay
+                        function reIntoarcere() {
+                            var tile_1 = document.getElementById(tile_ids[0]);
+                            var tile_2 = document.getElementById(tile_ids[1]);
+                            tile_1.style.background = '#ffe6ff'; // culoare initiala
+                            tile_1.innerHTML = "";
+                            tile_2.style.background = '#ffe6ff';
+                            tile_2.innerHTML = "";
+                            valori = [];
+                            tile_ids = [];
+                        }
+                        setTimeout(reIntoarcere, 700); // 0.7 secunde delay
+                    }
+                }
+            }
+        }
+
+        // functie care initializeaza/regenereaza tabla de joc
+        function newPatrat() {
+            flipped = 0; // resetam numarul de potriviri
+            var output = '';
+            variabile.tile_shuffle(); // amesteca valorile
+            for (var i = 0; i < variabile.length; i++) {
+                // creeaza fiecare patratel cu valoare ascunsa
+                output += '<div id="tile_' + i + '" onclick="FlipTile(this,\'' + variabile[i] + '\')"></div>';
+            }
+            // adauga toate patratelele in tabla
+            document.getElementById('board').innerHTML = output;
+        }
+    </script>
+    <title>Problema 3 - numere</title>
+</head>
+
+<body style="font-family: sans-serif; background-color: lavender;"> 
+
+    <h2 style="color:#6a0dad;">Memory Game - găsește perechile de numere ascunse!</h2>
+    <div id="board"></div>
+
+    <script>
+        // initializeaza jocul la incarcarea paginii
+        newPatrat();
+    </script>
+
+</body>
+</html>

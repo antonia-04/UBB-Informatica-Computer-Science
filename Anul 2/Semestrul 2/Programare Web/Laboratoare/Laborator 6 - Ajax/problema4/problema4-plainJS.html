@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <title>X-0 cu AJAX și server</title>
+    <style>
+        table { border-collapse: collapse; margin: 20px auto; }
+        td {
+            width: 60px; height: 60px; text-align: center; font-size: 2em;
+            border: 2px solid #333; cursor: pointer;
+        }
+        td.disabled { cursor: not-allowed; color: #aaa; }
+        #message { text-align: center; font-weight: bold; margin-top: 20px;}
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Joc X-0 cu server</h2>
+<table id="board">
+    <tbody>
+        <!-- 3x3 celule -->
+        <tr><td data-pos="0"></td><td data-pos="1"></td><td data-pos="2"></td></tr>
+        <tr><td data-pos="3"></td><td data-pos="4"></td><td data-pos="5"></td></tr>
+        <tr><td data-pos="6"></td><td data-pos="7"></td><td data-pos="8"></td></tr>
+    </tbody>
+</table>
+
+<div id="message"></div>
+
+<script>
+    // Stare tabla: vector 9 elemente 'X', '0' sau ''
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let playerSymbol, computerSymbol;
+    let playerTurn; // true daca e randul jucatorului
+    const boardEl = document.getElementById('board');
+    const messageEl = document.getElementById('message');
+
+    function startGame() {
+        // Aleator cine incepe
+        if (Math.random() < 0.5) {
+            playerSymbol = 'X';
+            computerSymbol = '0';
+            playerTurn = true;
+            messageEl.textContent = "Incepe jucatorul (tu cu X)";
+        } else {
+            playerSymbol = '0';
+            computerSymbol = 'X';
+            playerTurn = false;
+            messageEl.textContent = "Incepe calculatorul (tu cu 0)";
+            computerMove(); // calculatorul muta primul
+        }
+        renderBoard();
+    }
+
+    function renderBoard() {
+        const cells = boardEl.querySelectorAll('td');
+        cells.forEach((cell, idx) => {
+            cell.textContent = board[idx];
+            cell.classList.toggle('disabled', board[idx] !== '' || !playerTurn);
+        });
+    }
+
+    boardEl.addEventListener('click', e => {
+        if (!playerTurn) return;
+        if (e.target.tagName !== 'TD') return;
+        const pos = parseInt(e.target.getAttribute('data-pos'));
+        if (board[pos] !== '') return; // deja ocupata
+        board[pos] = playerSymbol;
+        playerTurn = false;
+        renderBoard();
+        checkGame();
+        if (!playerTurn) {
+            computerMove();
+        }
+    });
+
+    function checkGame() {
+        // trimitem tabla la server pentru verificare starea jocului
+        fetch('move.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ board: board, checkOnly: true })
+        })
+        .then(r => r.json())
+        .then(resp => {
+            if (resp.status !== 'continue') {
+                // joc terminat
+                if (resp.status === 'win') {
+                    messageEl.textContent = resp.winner === playerSymbol ? "Ai castigat! 🎉" : "Calculatorul a castigat!";
+                } else if (resp.status === 'draw') {
+                    messageEl.textContent = "Remiza!";
+                }
+                playerTurn = false;
+                renderBoard();
+            }
+        });
+    }
+
+    function computerMove() {
+        messageEl.textContent = "Calculatorul muta...";
+        fetch('move.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ board: board, playerSymbol: playerSymbol, computerSymbol: computerSymbol })
+        })
+        .then(r => r.json())
+        .then(resp => {
+            board = resp.board;
+            if (resp.status === 'win') {
+                messageEl.textContent = resp.winner === playerSymbol ? "Ai castigat! 🎉" : "Calculatorul a castigat!";
+                playerTurn = false;
+            } else if (resp.status === 'draw') {
+                messageEl.textContent = "Remiza!";
+                playerTurn = false;
+            } else {
+                messageEl.textContent = "Randul tau!";
+                playerTurn = true;
+            }
+            renderBoard();
+        });
+    }
+
+    window.onload = startGame;
+</script>
+
+</body>
+</html>

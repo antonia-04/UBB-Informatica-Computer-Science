@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Problema 4 - jQuery</title>
+    <style>
+        body {
+            background: lavender;
+            font-family: Arial;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #999;
+            padding: 0.5em;
+        }
+
+        th {
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <!-- tabel cu anteturi pe randuri (va sorta coloane) -->
+    <table id="myTable" style="width: 180px; margin-top: 1em;">
+        <tbody>
+            <tr>
+                <th>Fructe</th>
+                <td>Mere</td>
+                <td>Pere</td>
+            </tr>
+            <tr>
+                <th>Pret</th>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <th>Cantitate</th>
+                <td>8</td>
+                <td>6</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table id="mySecondTable" style="width: 180px; margin-top: 1em;">
+        <tbody>
+            <tr>
+                <th>Produse</th>
+                <td>Radiere</td>
+                <td>Creion</td>
+                <td>Pix</td>
+            </tr>
+            <tr>
+                <th>Pret</th>
+                <td>3</td>
+                <td>4</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <th>Cantitate</th>
+                <td>8</td>
+                <td>6</td>
+                <td>4</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- tabel clasic, cu anteturi pe prima linie -->
+    <table id="myThirdTable" style="width: 180px; margin-top: 1em;">
+        <thead>
+            <tr>
+                <th>Fructe</th>
+                <th>Pret</th>
+                <th>Cantitate</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Mere</td>
+                <td>3</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>Pere</td>
+                <td>4</td>
+                <td>6</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // sortare pentru tabelele in care anteturile sunt pe RANDURI
+        $("#myTable th, #mySecondTable th").on("click", function () {
+            // se retine indexul coloanei care trebuie sortata
+            var colIndex = $(this).parent().index();
+            // se retine tabelul curent
+            var table = $(this).closest("table");
+            // se iau toate randurile
+            var rows = table.find("tr");
+            // se extrage prima linie (cu th)
+            var headerRow = rows.eq(colIndex);
+            // se iau celulele din acea linie
+            var cells = headerRow.find("td");
+
+            // se retine ordinea (asc/desc) ca data pe element
+            var ascending = $(this).data("asc") || false;
+            $(this).data("asc", !ascending);
+
+            // vector cu valorile si indexii originali
+            var data = cells.map(function (i, el) {
+                return {
+                    value: $(el).text(),
+                    index: i
+                };
+            }).get();
+
+            // sortam valorile
+            data.sort(function (a, b) {
+                return ascending
+                    ? a.value.localeCompare(b.value, undefined, { numeric: true })
+                    : b.value.localeCompare(a.value, undefined, { numeric: true });
+            });
+
+            // reordonam fiecare linie in functie de sortarea de mai sus
+            rows.each(function () {
+                var tds = $(this).find("td");
+                var newOrder = $.map(data, function (d) {
+                    return tds.eq(d.index).clone();
+                });
+                // se inlocuiesc celulele in ordine noua
+                tds.each(function (i) {
+                    $(this).replaceWith(newOrder[i]);
+                });
+            });
+        });
+
+        // sortare pentru tabelele cu anteturi clasice (pe coloane)
+        $("#myThirdTable th").on("click", function () {
+            var table = $(this).closest("table");
+            var colIndex = $(this).index();
+            var ascending = $(this).data("asc") || false;
+            $(this).data("asc", !ascending);
+
+            // preluam toate randurile din tbody
+            var rows = table.find("tbody tr").get();
+
+            rows.sort(function (a, b) {
+                var A = $(a).children("td").eq(colIndex).text();
+                var B = $(b).children("td").eq(colIndex).text();
+                return ascending
+                    // functie de comparare: aici dupa nr
+                    ? A.localeCompare(B, undefined, { numeric: true })
+                    : B.localeCompare(A, undefined, { numeric: true });
+            });
+
+            // atasam randurile sortate inapoi in tbody
+            $.each(rows, function (i, row) {
+                table.children("tbody").append(row);
+            });
+        });
+    </script>
+
+</body>
+
+</html>

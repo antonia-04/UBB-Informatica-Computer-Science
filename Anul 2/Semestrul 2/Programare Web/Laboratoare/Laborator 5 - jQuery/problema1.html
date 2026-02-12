@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problema 1 - jQuery</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body {
+      background-color: lavender;
+    }
+    select {
+      width: 200px;
+      height: 150px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Problema 1</h2>
+  <h4>Modificati listele prin dublu-click astfel incat sa se formeze doua grupuri de orase.</h4>
+
+  <!-- prima lista -->
+  <select id="list1" size="10">
+    <option value="1">Bucuresti</option>
+    <option value="2">Cluj-Napoca</option>
+    <option value="3">Timisoara</option>
+    <option value="4">Iasi</option>
+    <option value="5">Brasov</option>
+    <option value="6">Constanta</option>
+    <option value="7">Sibiu</option>
+    <option value="8">Oradea</option>
+    <option value="9">Craiova</option>
+    <option value="10">Arad</option>
+  </select>
+
+  <!-- a doua lista -->
+  <select id="list2" size="10"></select>
+
+  <script>
+    function moveItem($source, $target) {
+      // muta direct optiunea selectata din lista sursa in lista tinta
+      $target.append($source.find("option:selected"));
+    }
+
+    $(document).ready(function () {
+      // la dublu click pe lista 1, mutam optiunea selectata in lista 2
+      $("#list1").on("dblclick", function () {
+        moveItem($("#list1"), $("#list2"));
+      });
+
+      // la dublu click pe lista 2, mutam optiunea selectata in lista 1
+      $("#list2").on("dblclick", function () {
+        moveItem($("#list2"), $("#list1"));
+      });
+    });
+  </script>
+
+</body>
+</html>

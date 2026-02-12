@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editare carti (jQuery)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        select, input {
+            margin: 5px 0;
+            padding: 5px;
+            width: 250px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Carti disponibile</h2>
+    <select id="bookList"></select>
+
+    <h3>Detalii carte</h3>
+    <form id="bookForm">
+        Titlu: <input type="text" id="title"><br><br>
+        Autor: <input type="text" id="author"><br><br>
+        ISBN: <input type="text" id="isbn"><br><br>
+        <button type="button" id="saveBtn" disabled>Save</button>
+    </form>
+
+    <script>
+        let modified = false;
+        let currentId = null;
+
+        function loadIds() {
+            $.get("get_ids.php", function(data) {
+                let ids = JSON.parse(data);
+                let $bookList = $("#bookList").empty();
+                ids.forEach(id => {
+                    $bookList.append(`<option value="${id}">Carte ID ${id}</option>`);
+                });
+                if (ids.length > 0) {
+                    $bookList.val(ids[0]);
+                    loadBook(ids[0]);
+                }
+            });
+        }
+
+        function loadBook(id) {
+            if (modified) {
+                if (!confirm("Ai modificat formularul. Doresti sa salvezi modificarile inainte?")) {
+                    modified = false;
+                } else {
+                    saveBook();
+                    return;
+                }
+            }
+
+            $.get("get_book.php", { id: id }, function(book) {
+                $("#title").val(book.title);
+                $("#author").val(book.author);
+                $("#isbn").val(book.isbn);
+                currentId = id;
+                modified = false;
+                $("#saveBtn").prop("disabled", true);
+            }, "json");
+        }
+
+        function saveBook() {
+            $.post("save_book.php", {
+                id: currentId,
+                title: $("#title").val(),
+                author: $("#author").val(),
+                isbn: $("#isbn").val()
+            }, function(response) {
+                alert(response);
+                modified = false;
+                $("#saveBtn").prop("disabled", true);
+            });
+        }
+
+        $(document).ready(function () {
+            loadIds();
+
+            $("#bookList").on("change", function () {
+                loadBook($(this).val());
+            });
+
+            $("#title, #author, #isbn").on("input", function () {
+                modified = true;
+                $("#saveBtn").prop("disabled", false);
+            });
+
+            $("#saveBtn").on("click", saveBook);
+        });
+    </script>
+</body>
+</html>

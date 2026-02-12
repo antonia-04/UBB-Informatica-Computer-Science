@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+    body, html {
+      height: 100%;
+    }
+
+    .parallax {
+      /*background-image: url('imagine.jpg');*/
+
+      height: 100%; 
+
+      /* se creeaza parallax: imaginea e fixa -> efect vizual ca se misca mai greu */
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .parallax-1{
+        background-image: url('imagine.jpg');
+    }
+
+    .parallax-2{
+        background-image: url('imagine1.jpg');
+    }
+
+    .parallax-3{
+      background-image: url('imagine.jpg');
+    }
+
+    </style>
+  </head>
+
+    <body>
+
+    <div class="parallax parallax-1"></div>
+
+    <div style="height:300px;background-color:#D09EEE;font-size:36px">
+     Paragraf 1 <br> <br>
+     EXEMPLU
+    </div>
+
+    <div class="parallax parallax-2"></div>
+
+    <div style="height: 300px; background-color:#A67EBE; font-size: 36px;">
+     Paragraf 2 <br> <br>
+     EXEMPLU
+    </div>
+
+    <div class="parallax parallax-3"></div>
+
+  </body>
+</html>

@@ -1,0 +1,32 @@
+
+.big-border {
+  border: 0.5px solid black; 
+  padding: 20px; 
+  width: 400px; 
+}
+
+.image-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0;
+  list-style: none;
+}
+
+.image-list li {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  background-color: lavender;
+  padding: 15px;
+  text-align: center;
+  width: 150px;
+}
+
+.image-container img {
+  /*am imagini de 200px*/
+  max-width: 100%;
+  height: auto;
+}

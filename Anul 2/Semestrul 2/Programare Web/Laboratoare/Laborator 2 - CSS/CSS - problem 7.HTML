@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laborator 2 - CSS - Problema 7</title>
+  <style>
+    .dialog {
+      list-style: none; /* scoate bullets */
+      padding: 0;
+      margin: 0;
+      width: 80%; 
+      max-width: 600px;
+      min-width: 100px;
+      min-height: 40px;
+      margin: 20px auto; /* centreaza pe orizontala */
+      position: relative; 
+      text-align: center;
+      word-wrap: break-word; /* rupe cuvintele daca sunt prea lungi */
+    }
+
+    .dialog li {
+      padding: 10px 20px; 
+      position: relative; /* pozitionarea elementelor before/after */
+    }
+
+    .dialog .alice {
+      background-color: lavenderblush; 
+      border-radius: 15px; /* colturi rotunjite */
+      margin-bottom: 10px; /* spatiu jos intre mesaje */
+    }
+
+    .dialog .bob {
+      background-color: #cfe2ff; 
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+    /*se afiseaza inainte de executia html*/
+    .dialog .alice::before {
+      content: "";
+      display: inline-block;
+      width: 50px;
+      height: 50px; 
+      background-image: url('aliceandbob.png'); 
+      background-position: 0 0; /* partea stanga - ALICE */
+      /*background-size: 50px 50px; */
+      background-repeat: no-repeat; /* nu repeta imaginea */
+      position: absolute;
+      top: -25px; /* pozitioneaza deasupra mesajului */
+      left: -65px; /* pozitioneaza in stanga mesajului */
+
+    }
+
+    .dialog .bob::before {
+      content: "";
+      display: inline-block;
+      width: 50px; 
+      height: 50px; 
+      background-image: url('aliceandbob.png'); 
+      background-position: -50px 0; /* partea dreapta - BOB */
+      /*background-size: 50px 50px;*/
+      background-repeat: no-repeat;
+      position: absolute;
+      top: -25px;
+      left: -65px;
+    }
+
+    .dialog .alice::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      border: 9px solid transparent; /* triunghi transparent */
+      border-right-color:lavenderblush; /* varf spre mesaj */
+      border-left: 0;
+      border-top: 0;
+      margin-top: -4.5px; /* centrarea triunghiului */
+      margin-left: -9px;
+    }
+
+    .dialog .bob::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      border: 9px solid transparent;
+      border-right-color: #cfe2ff; /* varf spre mesaj */
+      border-left: 0;
+      border-top: 0;
+      margin-top: -4.5px;
+      margin-left: -9px;
+    }
+
+  </style>
+</head>
+<body>
+  <ul class="dialog">
+    <li class="alice">Lorem ipsum dolor sit amet, consectetur adipisicing elit</li>
+    <li class="bob">Sed ut perspiciatis unde omnis iste nat us error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt</li>
+    <li class="alice">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse</li>
+    <li class="bob">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse</li>
+    <li class="alice">Lorem ipsum dolor sit amet, consectetur adipisicing elit</li>
+    <li class="bob">Sed ut perspiciatis unde omnis iste nat us error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt</li>
+  </ul>
+</body>
+</html>

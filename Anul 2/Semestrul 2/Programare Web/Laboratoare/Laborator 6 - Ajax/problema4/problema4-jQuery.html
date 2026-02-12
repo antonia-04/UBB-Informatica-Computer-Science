@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <title>X-0 cu AJAX și server (jQuery)</title>
+    <style>
+        table { border-collapse: collapse; margin: 20px auto; }
+        td {
+            width: 60px; height: 60px; text-align: center; font-size: 2em;
+            border: 2px solid #333; cursor: pointer;
+        }
+        td.disabled { cursor: not-allowed; color: #aaa; }
+        #message { text-align: center; font-weight: bold; margin-top: 20px;}
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2 style="text-align:center;">Joc X-0 cu server (jQuery)</h2>
+<table id="board">
+    <tbody>
+        <tr><td data-pos="0"></td><td data-pos="1"></td><td data-pos="2"></td></tr>
+        <tr><td data-pos="3"></td><td data-pos="4"></td><td data-pos="5"></td></tr>
+        <tr><td data-pos="6"></td><td data-pos="7"></td><td data-pos="8"></td></tr>
+    </tbody>
+</table>
+
+<div id="message"></div>
+
+<script>
+$(function() {
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let playerSymbol, computerSymbol;
+    let playerTurn;
+    const $board = $('#board');
+    const $message = $('#message');
+
+    function startGame() {
+        if (Math.random() < 0.5) {
+            playerSymbol = 'X';
+            computerSymbol = '0';
+            playerTurn = true;
+            $message.text("Incepe jucatorul (tu cu X)");
+        } else {
+            playerSymbol = '0';
+            computerSymbol = 'X';
+            playerTurn = false;
+            $message.text("Incepe calculatorul (tu cu 0)");
+            computerMove();
+        }
+        renderBoard();
+    }
+
+    function renderBoard() {
+        $board.find('td').each(function(idx) {
+            $(this).text(board[idx]);
+            if(board[idx] !== '' || !playerTurn) {
+                $(this).addClass('disabled');
+            } else {
+                $(this).removeClass('disabled');
+            }
+        });
+    }
+
+    $board.on('click', 'td', function() {
+        if (!playerTurn) return;
+        const pos = +$(this).data('pos');
+        if (board[pos] !== '') return;
+        board[pos] = playerSymbol;
+        playerTurn = false;
+        renderBoard();
+        checkGame();
+        if (!playerTurn) {
+            computerMove();
+        }
+    });
+
+    function checkGame() {
+        $.ajax({
+            url: 'move.php',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ board: board, checkOnly: true }),
+            dataType: 'json'
+        }).done(function(resp) {
+            if (resp.status !== 'continue') {
+                if (resp.status === 'win') {
+                    $message.text(resp.winner === playerSymbol ? "Ai castigat! 🎉" : "Calculatorul a castigat!");
+                } else if (resp.status === 'draw') {
+                    $message.text("Remiza!");
+                }
+                playerTurn = false;
+                renderBoard();
+            }
+        });
+    }
+
+    function computerMove() {
+        $message.text("Calculatorul muta...");
+        $.ajax({
+            url: 'move.php',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ board: board, playerSymbol: playerSymbol, computerSymbol: computerSymbol }),
+            dataType: 'json'
+        }).done(function(resp) {
+            board = resp.board;
+            if (resp.status === 'win') {
+                $message.text(resp.winner === playerSymbol ? "Ai castigat! 🎉" : "Calculatorul a castigat!");
+                playerTurn = false;
+            } else if (resp.status === 'draw') {
+                $message.text("Remiza!");
+                playerTurn = false;
+            } else {
+                $message.text("Randul tau!");
+                playerTurn = true;
+            }
+            renderBoard();
+        });
+    }
+
+    startGame();
+});
+</script>
+
+</body>
+</html>

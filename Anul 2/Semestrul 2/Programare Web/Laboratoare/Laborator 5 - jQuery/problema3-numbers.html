@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* tabla de joc */
+        div#board {
+            display: grid;
+            grid-template-columns: repeat(4, 80px); /* 4 pe rând */
+            grid-template-rows: repeat(3, 80px);    /* 3 rânduri */
+            gap: 10px;
+            padding: 24px;
+            background-color: lavender;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+        /* stil patratel */
+        div#board > div {
+            border: 1px solid #6a0dad; 
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            padding: 20px;
+            font-size: 30px;
+            cursor: pointer;
+            text-align: center;
+            background-color: #ffe6ff; 
+            color: #6a0dad; /* culoare text */
+            border-radius: 8px;
+            transition: background 0.3s;
+            user-select: none; /* sa nu selecteze textul cand dai click */
+        }
+    </style>
+    <title>Problema 3 - numere cu jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function() {
+            // variabile globale
+            var valori = [];         // retine valorile patratelelor intoarse momentan
+            var tile_ids = [];       // retine id-urile patratelelor intoarse momentan
+            var flipped = 0;         // numarul total de patratele ghicite
+            var variabile = ['1', '1', '2', '2', '3', '3', '4', '4', '5', '5', '6', '6']; // valori pereche
+
+            // functie pentru amestecarea valorilor din array (Fisher-Yates shuffle)
+            function tile_shuffle(array) {
+                var i = array.length, j, temp;
+                while (--i > 0) {
+                    j = Math.floor(Math.random() * (i + 1));
+                    temp = array[j];
+                    array[j] = array[i];
+                    array[i] = temp;
+                }
+            }
+
+            // functie care initializeaza / regenereaza tabla de joc
+            function newPatrat() {
+                flipped = 0;         // resetam numarul de perechi ghicite
+                valori = [];         // resetam valorile momentan intoarse
+                tile_ids = [];       // resetam id-urile momentan intoarse
+                tile_shuffle(variabile); // amestecam valorile perechi
+
+                // construim tabla cu div-uri goale, fiecare cu id unic
+                var output = '';
+                for (var i = 0; i < variabile.length; i++) {
+                    output += '<div id="tile_' + i + '" data-value="' + variabile[i] + '"></div>';
+                }
+                $('#board').html(output); // punem tabla in DOM
+            }
+
+            // functie care se apeleaza cand un patratel este apasat
+            $('#board').on('click', 'div', function() {
+                var $tile = $(this);
+
+                // daca patratelul e deja descoperit sau deja doua patratele sunt intoarse, ignoram click-ul
+                if ($tile.text() !== "" || valori.length >= 2) {
+                    return;
+                }
+
+                // afisam valoarea patratelului si schimbam culoarea fundalului
+                $tile.css('background', '#e0bbff');
+                $tile.text($tile.data('value'));
+
+                // retinem valoarea si id-ul patratelului
+                valori.push($tile.data('value'));
+                tile_ids.push($tile.attr('id'));
+
+                // daca am intoarce doua patratele, verificam daca sunt pereche
+                if (valori.length === 2) {
+                    if (valori[0] === valori[1]) {
+                        // daca perechea este corecta
+                        flipped += 2;    // crestem numarul de patratele ghicite
+                        valori = [];
+                        tile_ids = [];
+
+                        // daca toate patratelele sunt ghicite, afisam mesaj si resetam tabla dupa scurt timp
+                        if (flipped === variabile.length) {
+                            setTimeout(function() {
+                                alert("Felicitari! Jocul s-a sfarsit!");
+                                newPatrat();
+                            }, 300);
+                        }
+                    } else {
+                        // daca nu sunt pereche, ascundem valorile inapoi dupa 700ms si resetam temporarele
+                        setTimeout(function() {
+                            $('#' + tile_ids[0]).css('background', '#ffe6ff').text('');
+                            $('#' + tile_ids[1]).css('background', '#ffe6ff').text('');
+                            valori = [];
+                            tile_ids = [];
+                        }, 700);
+                    }
+                }
+            });
+
+            // initializam tabla la incarcare
+            newPatrat();
+        });
+    </script>
+</head>
+
+<body style="font-family: sans-serif; background-color: lavender;"> 
+
+    <h2 style="color:#6a0dad;">Memory Game - gaseste perechile de numere ascunse!</h2>
+    <div id="board"></div>
+
+</body>
+</html>

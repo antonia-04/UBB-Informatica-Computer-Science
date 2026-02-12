@@ -70,3 +70,50 @@ Alte colecții de materiale și rezolvări de la colegi:
 
 6. **🇬🇧 Limba engleză**  
 
+### Semestrul 2
+
+1. **🧩 Ingineria Sistemelor Soft**  
+
+2. **🤖 Inteligență Artificială**  
+
+3. **🇬🇧 Limba engleză 2 – curs practic (limbaj specializat)**  
+
+4. **🛠️ Medii de Proiectare și Programare**  
+
+5. **🌐 Programare Web**  
+
+6. **🗄️ Sisteme de Gestiune a Bazelor de Date**
+
+
+## Anul 3
+### 2025-2026
+
+### Semestrul 1
+
+1. **🧑‍🤝‍🧑 Interacțiunea Om–Calculator**  
+
+2. **🧾 Limbaje Formale și Tehnici de Compilare**  
+
+3. **🧠 Metode Inteligente de Rezolvare a Problemelor Reale**  
+
+4. **⚙️ Programare Paralelă și Distribuită**  
+
+5. **📱 Programare pentru Dispozitive Mobile**  
+
+6. **💡 Proiectarea Produselor Inovative**  
+
+### Semestrul 2
+
+1. **🖧 Administrare de Sistem și de Rețea**  
+
+2. **📐 Calcul Numeric**  
+
+3. **🎓 Elaborarea Lucrării de Licență**  
+
+4. **📜 Istoria Informaticii**  
+
+5. **🔐 Tehnici de Calcul Cuantice cu Aplicații în Criptografie și IA**  
+
+6. **✅ Verificarea și Validarea Sistemelor Soft**
+   
++ FACULTATIV: **🚀 Fundamente de Antreprenoriat**  

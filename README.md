@@ -13,6 +13,7 @@ Alte colecții de materiale și rezolvări de la colegi:
 * [**DeepSmeag/University**](https://github.com/DeepSmeag/University)
 * [**andreearusr/University**](https://github.com/andreearusr/University/tree/main)
 * [**bellaciaooo/UBB-CS**](https://github.com/bellaciaooo/UBB-CS)
+* [**Vlaaad8/Facultatea-de-Matematica-si-Informatica---UBB**](https://github.com/Vlaaad8/Facultatea-de-Matematica-si-Informatica---UBB)
 
 ---
 
